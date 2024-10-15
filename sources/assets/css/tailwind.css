@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: fontRegular;
+    src: url(../Roboto_Slab/static/RobotoSlab-Regular.ttf);
+}
+
+@font-face {
+    font-family: font500;
+    src: url(../Roboto_Slab/static/RobotoSlab-Medium.ttf);
+}
+
+@font-face {
+    font-family: font700;
+    src: url(../Roboto_Slab/static/RobotoSlab-Bold.ttf);
+}
+
+.font-main{
+    font-family: fontRegular;
+}
+
+.font-main-medium{
+    font-family: font500;
+}
+
+.font-main-bold{
+    font-family: font700;
+}
