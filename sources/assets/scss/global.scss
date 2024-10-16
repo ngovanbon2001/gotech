@@ -1,0 +1,66 @@
+// Định nghĩa biến SCSS
+$primary-color: #3498db;
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+
+    .btn-none {
+        background-color: #FFFFFF;
+        font-size: 18px;
+        font-weight: 400;
+        color: #000000;
+        border: #000000 1px solid;
+    }
+
+    .btn-none:hover {
+        background-color: #DC0F0F;
+        color: #FFFFFF;
+        border: none;
+    }
+
+    .btn-black {
+        background-color: #000000;
+        font-size: 18px;
+        font-weight: 400;
+        color: #FFFFFF;
+        border: #000000 1px solid;
+    }
+
+    .btn-black:hover {
+        background-color: #FFFFFF;
+        color: #000000;
+        border: none;
+    }
+
+    .btn-primary {
+        background-color: #2F80ED;
+        font-size: 18px;
+        font-weight: 400;
+        color: #FFFFFF;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #FFFFFF;
+        color: #2F80ED;
+        border: none;
+    }
+
+    .red-DC0F0F{
+        background-color: #DC0F0F;
+        color: #FFFFFF;
+        border: none !important;
+    }
+}
+
+.space {
+    flex: 1;
+}
