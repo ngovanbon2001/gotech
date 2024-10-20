@@ -1,108 +1,276 @@
 <template>
-    <div class="fixed bg-white z-50 max-w-md w-full">
-        <Container class="w-full">
-            <div v-if="isSearch" class="flex justify-between items-center h-8">
-                <div class="icon-back flex justify-center pr-3"
-                     @click="handleClickIconBack">
-                    <img class="" :src="iconBack">
-                </div>
-                <div class="input-group grow w-6/6 rounded-xl border border-gray flex">
-                    <label class="input-icon p-2">
-                        <img :src="iconSearch">
-                    </label>
-                    <input
-                        type="text" class="grow rounded-2xl"
-                        @input="$emit('update:modelValue', $event.target.value)"
-                        :value="modelValue"
-                        placeholder="Tìm mã khoản vay"
-                    >
-                </div>
+    <header class="header overflow-x-auto">
+        <div class="header-1">
+            <div class="logo">
+                <img src="/images/gotech.png" alt="logo" />
             </div>
-            <div v-else class="flex justify-center relative items-center h-8">
-                <div class="icon-back flex justify-center absolute left-0 pr-3"
-                     v-if="back"
-                     @click="handleClickIconBack">
-                    <img class="" :src="iconBack">
-                </div>
-                <div class="text-lg font-bold">
-                    <slot/>
-                </div>
-                <div class="flex absolute right-0 top-0 bottom-0 gap-2 items-center">
-                    <div class="w-6 h-6" v-if="search" @click="handleClickIconSearch">
-                        <img class="w-full" :src="iconSearch"/>
-                        <!--                        <BaseIcon :path="mdiMagnify()" size="24"/>-->
-                    </div>
-                    <div class="w-6 h-6" v-if="call">
-                        <a href="tel:19002198">
-                            <img class="w-full" :src="iconCall"/>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </Container>
-    </div>
-</template>
-<script>
-import iconCall from "../assets/svgs/support.svg";
-import iconSearch from "../assets/icon-search.svg";
-import iconBack from "./../assets/icon_back.png";
-import Container from "./Container.vue";
-import BaseIcon from "./BaseIcon.vue";
-import {mdiMagnify} from "@mdi/js";
+            <form class="search-form">
+                <input type="text" placeholder="Tìm kiếm theo sản phẩm, dòng xe" class="search-input" />
+                <img src="/images/search.png" alt="search" />
+            </form>
+            <div class="space">
 
-export default {
-    name: "Header",
-    components: {BaseIcon, Container},
-    data() {
-        return {
-            iconCall: iconCall,
-            iconSearch: iconSearch,
-            iconBack: iconBack,
-            isSearch: false,
-        };
-    },
-    props: {
-        call: {
-            type: Boolean,
-            default: false,
-        },
-        search: {
-            type: Boolean,
-            default: false,
-        },
-        modelValue: {
-            type: String,
-            default: '',
-        },
-        back: {
-            type: Boolean,
-            default: false,
-        },
-        backLink: {
-            type: String,
-            default: '/',
-        }
-    },
-    computed: {},
-    methods: {
-        mdiMagnify() {
-            return mdiMagnify
-        },
-        handleClickIconSearch() {
-            this.isSearch = true;
-        },
-        handleClickIconBack() {
-            if (this.isSearch) {
-                this.isSearch = false;
-                return;
-            }
-            this.$inertia.get(this.backLink);
-        }
-    },
-    watch: {
-        isSearch(isSearch) {
-            this.$emit('update:isSearch', isSearch);
+            </div>
+            <div class="information">
+                <div class="hotline">
+                    <img src="/images/hotline.png" alt="hotline" />
+                    <div>
+                        <span class="hotline-label" aria-hidden="true">Tổng đài</span>
+                        <a href="tel:+123456789" class="hotline-number" aria-label="Call us at +123 456 789">+123 456
+                            789</a>
+                    </div>
+                </div>
+                <div class="hotline">
+                    <img src="/images/email.png" alt="hotline" />
+                    <div>
+                        <span class="hotline-label" aria-hidden="true">Email </span>
+                        <a href="mailto:contact@example.com" class="email-address">contact@gotech.vn</a>
+                    </div>
+                </div>
+                <div class="hotline">
+                    <img src="/images/location.png" alt="hotline" />
+                    <div>
+                        <span class="hotline-label" aria-hidden="true">Hệ thống đại lý</span>
+                        <span class="email-address">Tại 63 tỉnh thành</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-nav">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <nuxt-link to="/" exact>Trang chủ</nuxt-link>
+                </li>
+                <li class="nav-item">
+                    <nuxt-link to="/about">Về Gotech</nuxt-link>
+                </li>
+                <li class="nav-item">
+                    <nuxt-link to="/services" class="has-menu">Độ xe</nuxt-link>
+                    <ul class="nav-menu-level-2">
+                        <li class="nav-item-level-2">
+                            <nuxt-link to="/services" class="has-menu">Sản phẩm theo xe<span></span></nuxt-link>
+                        </li>
+                        <li class="nav-item-level-2">
+                            <nuxt-link to="/services" class="has-menu">Màn hình android ô tô<span></span></nuxt-link>
+                        </li>
+                        <li class="nav-item-level-2">
+                            <nuxt-link to="/services" class="has-menu">Android box ô tô<span></span></nuxt-link>
+                        </li>
+                        <li class="nav-item-level-2">
+                            <nuxt-link to="/services" class="has-menu">Camera hành trình<span></span></nuxt-link>
+                        </li>
+                        <li class="nav-item-level-2">
+                            <nuxt-link to="/services" class="has-menu">Cảm biến áp suất lốp<span></span></nuxt-link>
+                        </li>
+                        <li class="nav-item-level-2">
+                            <nuxt-link to="/services" class="has-menu">Phụ kiện<span></span></nuxt-link>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <nuxt-link to="/contact" class="has-menu">Tạp chí xe</nuxt-link>
+                    <ul class="nav-menu-level-2">
+                        <li class="nav-item-level-2">
+                            <nuxt-link to="/services" class="has-menu">Sản phẩm theo xe<span></span></nuxt-link>
+                        </li>
+                        <li class="nav-item-level-2">
+                            <nuxt-link to="/services" class="has-menu">Màn hình android ô tô<span></span></nuxt-link>
+                        </li>
+                        <li class="nav-item-level-2">
+                            <nuxt-link to="/services" class="has-menu">Android box ô tô<span></span></nuxt-link>
+                        </li>
+                        <li class="nav-item-level-2">
+                            <nuxt-link to="/services" class="has-menu">Camera hành trình<span></span></nuxt-link>
+                        </li>
+                        <li class="nav-item-level-2">
+                            <nuxt-link to="/services" class="has-menu">Cảm biến áp suất lốp<span></span></nuxt-link>
+                        </li>
+                        <li class="nav-item-level-2">
+                            <nuxt-link to="/services" class="has-menu">Phụ kiện<span></span></nuxt-link>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <nuxt-link to="/contact" class="has-menu">Chính sách</nuxt-link>
+                    <ul class="nav-menu-level-2">
+                        <li class="nav-item-level-2">
+                            <nuxt-link to="/services" class="has-menu">Sản phẩm theo xe<span></span></nuxt-link>
+                        </li>
+                        <li class="nav-item-level-2">
+                            <nuxt-link to="/services" class="has-menu">Màn hình android ô tô<span></span></nuxt-link>
+                        </li>
+                        <li class="nav-item-level-2">
+                            <nuxt-link to="/services" class="has-menu">Android box ô tô<span></span></nuxt-link>
+                        </li>
+                        <li class="nav-item-level-2">
+                            <nuxt-link to="/services" class="has-menu">Camera hành trình<span></span></nuxt-link>
+                        </li>
+                        <li class="nav-item-level-2">
+                            <nuxt-link to="/services" class="has-menu">Cảm biến áp suất lốp<span></span></nuxt-link>
+                        </li>
+                        <li class="nav-item-level-2">
+                            <nuxt-link to="/services" class="has-menu">Phụ kiện<span></span></nuxt-link>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <nuxt-link to="/contact">Tính năng</nuxt-link>
+                </li>
+                <li class="nav-item">
+                    <nuxt-link to="/contact">Đại lý</nuxt-link>
+                </li>
+            </ul>
+        </div>
+    </header>
+</template>
+
+<style lang="scss" scoped>
+.header-1 {
+    width: 80%;
+    margin: 16px auto;
+
+    display: flex;
+    align-items: center;
+
+    .search-form {
+        display: flex;
+        margin-left: 36px;
+        margin-right: 36px;
+        width: 360px;
+        height: 40px;
+        border-radius: 5px;
+        border: 2px solid #ccc;
+        position: relative;
+
+        img {
+            position: absolute;
+            height: 22px;
+            width: 22px;
+
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
         }
     }
-};
-</script>
+
+    .search-input {
+        padding: 10px;
+        border-color: transparent;
+        font-size: 16px;
+        width: 100%;
+        margin-right: 10px;
+    }
+
+    .information {
+        display: flex;
+
+        .hotline {
+            display: flex;
+            font-weight: 400;
+            font-size: 13px;
+            line-height: 16px;
+            margin-left: 20px;
+
+            img {
+                width: 28px;
+                height: 28px;
+            }
+
+            div {
+                margin-left: 8px;
+                display: flex;
+                flex-direction: column;
+
+                span {
+                    font-size: 13px;
+                    font-weight: 400;
+                    line-height: 18px;
+                    color: #000;
+                }
+
+                a {
+                    color: #DC0F0F;
+                    font-weight: 400;
+                    font-size: 14px;
+                    line-height: 18px;
+                    text-decoration: none;
+                }
+
+                .email-address {
+                    font-weight: 700;
+                    font-size: 14px;
+                    line-height: 18px;
+                    color: #030303;
+                }
+            }
+        }
+    }
+}
+
+.header-nav {
+    display: flex;
+    height: 62px;
+    background-color: #DC0F0F;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    .nav-menu {
+        height: 100%;
+        width: 100%;
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        .nav-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            a {
+                text-align: left;
+                color: #ffffff;
+                text-decoration: none;
+                font-size: 16px;
+                padding: 10px 25px;
+                transition: #DC0F0F;
+            }
+
+            a.has-menu {
+                background-image: url('/images/arrow-down.png');
+                background-repeat: no-repeat;
+                background-position: right 10px center;
+                padding-right: 30px;
+            }
+
+            &:hover {
+                background-color: #1E1E1E;
+
+                .nav-menu-level-2 {
+                    display: flex;
+                }
+            }
+
+            .nav-menu-level-2 {
+                list-style: none;
+                display: none;
+                justify-content: center;
+                align-items: center;
+
+                box-sizing: border-box;
+                position: absolute;
+                z-index: 1000;
+                top: 100%;
+                left: 0;
+                width: 100vw;
+                height: 42px;
+
+                background-color: #1E1E1E;
+            }
+        }
+    }
+}
+</style>
