@@ -5,68 +5,11 @@
     </section>
     <!-- Banner -->
     <section class="flex justify-center md:px-0 px-2">
-      <div class="w-full lg:w-[950px] xl:w-[1000px] 2xl:w-[1240px]">
-        <div
-          class="w-full grid lg:grid-cols-3 grid-cols-1 gap-2 rounded-xl py-4"
-        >
-          <img
-            v-for="value in banner3.data"
-            :key="value"
-            class="w-full h-[76px]"
-            :src="value.img"
-            alt="no-img"
-          />
-        </div>
-      </div>
+      <Banner :data="banner3.data" />
     </section>
     <!-- Độ xe hot -->
     <section class="flex justify-center items-center flex-col md:px-0 px-2">
-      <div
-        class="w-full lg:w-[950px] xl:w-[1000px] 2xl:w-[1240px] grid grid-cols-3 gap-6"
-      >
-        <div class="lg:col-span-2 col-span-3">
-          <img src="/images/do-xe-hot.png" alt="no-img" />
-          <div class="w-full">
-            <p class="font-bold text-lg">
-              {{ news.data[0].name }}
-            </p>
-            <p class="font-normal text-sm text-justify">
-              {{ news.data[0].seo_description }}
-            </p>
-          </div>
-
-          <div
-            class="col-span-2 grid grid-cols-4 gap-3 border-t border-[#636363] py-4 my-4"
-          >
-            <div
-              v-for="value in news.data"
-              :key="value"
-              class="lg:col-span-1 col-span-4 flex lg:flex-col flex-row gap-2"
-            >
-              <img :src="value.img" alt="no-img" class="w-[98px] md:w-auto" />
-              <p class="font-bold text-sm text-justify">
-                {{ value.name }}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="lg:col-span-1 col-span-3">
-          <div class="w-full" v-for="value in listNew" :key="value">
-            <img class="w-full" :src="value.img" alt="no-img" />
-            <div class="w-full">
-              <p class="font-bold text-sm">
-                {{ value.name }}
-              </p>
-              <p class="font-normal text-sm text-justify">
-                {{ value.seo_description }}
-              </p>
-            </div>
-          </div>
-          <div class="col-span-1 border-t border-[#636363] py-4 my-4">
-            <img src="/images/banner-2.png" alt="no-img" class="w-full" />
-          </div>
-        </div>
-      </div>
+      <NewHot :news="news"/>
     </section>
     <!-- Bài viết theo xe -->
     <section class="bg-[#F4F4F4] py-4 md:px-0 px-2">
@@ -137,22 +80,7 @@
     </section>
     <!-- Tin tức -->
     <section class="flex justify-center py-8 md:px-0 px-2">
-      <div
-        class="w-full lg:w-[950px] xl:w-[1000px] 2xl:w-[1240px] grid lg:grid-cols-4 grid-cols-2 gap-4"
-      >
-        <div v-for="value in news.data" :key="value">
-          <img :src="value.img" alt="no-img" />
-          <p
-            class="font-bold text-lg text-[#3F3F3F] whitespace-nowrap overflow-hidden cursor-pointer"
-            :title="value.name"
-          >
-            {{ value.name }}
-          </p>
-          <div class="w-full h-[72px] overflow-hidden text-justify">
-            {{ value.seo_description }}
-          </div>
-        </div>
-      </div>
+      <ListNew :data="news"/>
     </section>
     <!-- Phân trang -->
     <section class="flex justify-center py-2 md:px-0 px-2">
@@ -177,19 +105,18 @@ import PromoBanner from "@/components/PromoBanner.vue";
 import Carousel from "~/components/CarouselComponent.vue";
 import TitleProduct from "@/components/TitleProduct.vue";
 import { banner3, news } from "@/dump/dump.ts";
+import Banner from "@/components/new/Banner.vue";
+import NewHot from "@/components/new/NewHot.vue";
+import ListNew from "@/components/new/ListNew.vue";
 
 const breadcrumbItems = [
   { text: "Home", to: "/" },
   { text: "Độ xe", to: "/product" },
 ];
-
-const listNew = computed(() => {
-  return news.data.slice(1, 3);
-});
 </script>
 
 <style lang="scss" scoped>
 .paginate-custom :deep(.is-active) {
-    background-color: #DC0F0F !important;
+  background-color: #dc0f0f !important;
 }
 </style>

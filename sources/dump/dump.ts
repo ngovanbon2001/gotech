@@ -300,6 +300,26 @@ export const news = {
       brand_id: 3,
       car_id: 6,
     },
+    {
+      id: 37,
+      name: "Độ xe Mazda CX5 2023 – Kinh nghiệm đáng tiền phải biết",
+      description:
+        "<p>Độ xe Mazda CX5 2023 &ndash; Kinh nghiệm đ&aacute;ng tiền phải biết</p>",
+      content:
+        "<p>Độ xe Mazda CX5 2023 &ndash; Kinh nghiệm đ&aacute;ng tiền phải biết</p>",
+      deleted: 0,
+      created_at: "2024-09-29T08:55:12.000000Z",
+      updated_at: "2024-09-29T08:55:12.000000Z",
+      category_id: 12,
+      img: "/images/do-xe-hot-1.png",
+      slug: "do-xe-mazda-cx5-2023-kinh-nghiem-dang-tien-phai-biet",
+      hot: 1,
+      seo_title: null,
+      seo_description:
+        "Hyundai Santafe 2024 là chiếc SUV đẳng cấp, nhưng bạn hoàn toàn có thể biến nó thành phiên bản độc đáo và ấn tượng hơn nhờ độ xe Hyundai Santafe 2024.",
+      brand_id: 3,
+      car_id: 6,
+    }
   ],
 };
 
