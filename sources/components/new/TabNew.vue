@@ -21,7 +21,7 @@
         <div
           v-for="value in news.data"
           :key="value"
-          class="lg:col-span-1 col-span-4 flex lg:flex-col flex-row gap-2"
+          class="lg:col-span-1 col-span-4 flex lg:flex-col flex-row gap-2 transition-transform duration-300 transform hover:scale-105"
         >
           <img :src="value.img" alt="no-img" class="w-[98px] md:w-auto" />
           <p class="font-bold text-sm text-justify">

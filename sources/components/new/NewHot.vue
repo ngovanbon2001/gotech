@@ -20,7 +20,7 @@
           <div
             v-for="value in news.data"
             :key="value"
-            class="lg:col-span-1 col-span-4 flex lg:flex-col flex-row gap-2"
+            class="lg:col-span-1 col-span-4 flex lg:flex-col flex-row gap-2 transition-transform duration-300 transform hover:scale-105"
           >
             <img :src="value.img" alt="no-img" class="w-[98px] md:w-auto" />
             <p class="font-bold text-sm text-justify">
@@ -31,7 +31,7 @@
       </div>
       <div class="lg:col-span-1 col-span-3">
         <div class="w-full grid md:grid-cols-1 grid-cols-2 gap-4">
-          <div v-for="value in listNew" :key="value">
+          <div class="transition-transform duration-300 transform hover:scale-105" v-for="value in listNew" :key="value">
             <img class="w-full" :src="value.img" alt="no-img" />
             <div class="w-full">
               <p class="font-bold text-sm">
@@ -58,7 +58,7 @@
           <div
             v-for="value in news.data"
             :key="value"
-            class="lg:col-span-1 col-span-4 flex lg:flex-col flex-row gap-2"
+            class="lg:col-span-1 col-span-4 flex lg:flex-col flex-row gap-2 transition-transform duration-300 transform hover:scale-105"
           >
             <img :src="value.img" alt="no-img" class="w-[98px] md:w-auto" />
             <p class="font-bold text-sm text-justify">
@@ -67,7 +67,7 @@
           </div>
         </div>
       </div>
-      <div class="lg:col-span-1 col-span-3">
+      <div class="lg:col-span-1 col-span-3 transition-transform duration-300 transform hover:scale-105">
         <div class="col-span-1 border-t border-[#636363] py-4 my-4">
           <img src="/images/banner-2.png" alt="no-img" class="w-full" />
         </div>

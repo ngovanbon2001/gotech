@@ -98,6 +98,42 @@
           </div>
         </div>
       </div>
+            <div>
+        <div class="flex justify-center">
+          <TitleProduct :title="'Android Box ô tô'" />
+        </div>
+        <div class="w-full flex justify-center py-4">
+          <div
+            class="xl:w-[1000px] 2xl:w-[1240px] w-[300px] md:w-[700px] lg:w-[950px]"
+          >
+            <CarouselPR :data="products" />
+          </div>
+        </div>
+      </div>
+            <div>
+        <div class="flex justify-center">
+          <TitleProduct :title="'Android Box ô tô'" />
+        </div>
+        <div class="w-full flex justify-center py-4">
+          <div
+            class="xl:w-[1000px] 2xl:w-[1240px] w-[300px] md:w-[700px] lg:w-[950px]"
+          >
+            <CarouselPR :data="products" />
+          </div>
+        </div>
+      </div>
+            <div>
+        <div class="flex justify-center">
+          <TitleProduct :title="'Android Box ô tô'" />
+        </div>
+        <div class="w-full flex justify-center py-4">
+          <div
+            class="xl:w-[1000px] 2xl:w-[1240px] w-[300px] md:w-[700px] lg:w-[950px]"
+          >
+            <CarouselPR :data="products" />
+          </div>
+        </div>
+      </div>
     </section>
   </div>
 </template>

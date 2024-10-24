@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="uppercase w-full pb-4 font-bold text-[18px]">
-      Sản phẩm liên quan
+      {{ props.title }}
     </div>
     <div class="w-full lg:overflow-hidden overflow-x-auto">
       <div class="lg:w-full w-[700px] grid grid-cols-4 lg:grid-cols-2 gap-2">
@@ -50,6 +50,10 @@ const props = defineProps({
   news: {
     type: Array,
     default: [],
+  },
+  title: {
+    type: String,
+    default: "",
   },
 });
 

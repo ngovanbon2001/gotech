@@ -32,13 +32,13 @@
           <TabNew :title="'Thị trường xe'" :news="news" />
         </div>
         <div class="lg:col-span-1 col-span-3">
-          <ListProduct />
+          <ListProduct :title="'Độ xe'" />
         </div>
       </div>
     </section>
     <!-- Tin tức -->
     <section class="flex justify-center py-8 md:px-0 px-2">
-      <ListNew :data="news" />
+      <ListNew :title="'Độ xe'" :data="news" />
     </section>
   </div>
 </template>
