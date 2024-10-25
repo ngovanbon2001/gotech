@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full lg:w-[900px] xl:w-[1100px] 2xl:w-[1240px] lg:px-0 px-4">
+  <div class="w-full xl:w-[1000px] 2xl:w-[1240px] md:w-[700px] lg:w-[950px] lg:px-0 px-4">
     <el-breadcrumb class="py-4" :separator="separator">
       <el-breadcrumb-item
         v-for="(item, index) in items"

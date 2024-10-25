@@ -2,7 +2,7 @@
   <div>
     <div v-if="props.title" class="w-full flex justify-center my-2">
       <div
-        class="uppercase pb-4 font-bold text-[18px] w-full lg:w-[950px] xl:w-[1000px] 2xl:w-[1240px] grid grid-cols-3 gap-6"
+        class="uppercase pb-4 font-bold text-[18px] w-full lg:w-[950px] xl:w-[1000px] 2xl:w-[1240px]"
       >
         {{ props.title }}
       </div>
