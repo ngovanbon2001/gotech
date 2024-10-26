@@ -6,7 +6,7 @@
     <section class="product-sale">
       <PromoBanner :title="'Sản phẩm khuyến mãi'" />
       <div class="w-full flex justify-center md:gap-10 py-6">
-        <el-button v-for="value in listButtonCategory" :key="value" class="btn-none !h-10 md:w-[228px]">{{ value.name }}</el-button>
+        <el-button v-for="value in listButtonCategory" :key="value" @click="getProduct(value.id)" class="btn-none !h-10 md:w-[228px]">{{ value.name }}</el-button>
       </div>
       <div class="w-full flex justify-center">
         <div class="relative w-full xl:w-[1000px] 2xl:w-[1240px] px-4 md:px-0">
@@ -39,7 +39,7 @@
       </div>
       <div class="w-full flex justify-center py-6">
         <div class="xl:w-[1000px] lg:w-[950px] 2xl:w-[1240px] w-[300px] md:w-[700px]">
-          <Carousel :data="products" />
+          <Carousel :data="listProductDiscount" />
         </div>
       </div>
     </section>
@@ -50,12 +50,12 @@
       </div>
       <div class="flex justify-center md:px-0 px-3">
         <el-input
-          v-model="input2"
+          v-model="searchCategoryChild.product_name"
           class="md:max-w-[382px] h-10 mr-4"
           placeholder="Tìm kiếm sản phẩm"
           :suffix-icon="CaretRight"
         />
-        <el-button class="btn-none !h-10 md:w-[150px] red-DC0F0F"
+        <el-button @click="getCategoryChild(searchCategoryChild.category_id)" class="btn-none !h-10 md:w-[150px] red-DC0F0F"
           >Tìm kiếm</el-button
         >
       </div>
@@ -66,7 +66,8 @@
           <div
             v-for="(value, key) in categories"
             :key="key"
-            class="category-child"
+            class="category-child cursor-pointer"
+            @click="getCategoryChild(value.id)"
           >
             {{ value.name }}
           </div>
@@ -75,7 +76,8 @@
           <div
             v-for="(value, key) in categories"
             :key="key"
-            class="flex flex-col justify-center items-center transition-transform duration-300 transform hover:scale-105"
+            @click="getCategoryChild(value.id)"
+            class="flex cursor-pointer flex-col justify-center items-center transition-transform duration-300 transform hover:scale-105"
           >
             <div class="flex justify-center items-center w-[84px] h-[84px] bg-[#F8F8F8] rounded-[50%]">
               <img class="w-[63px] h-[44.91px]" :src="value.img" alt="no-img" />
@@ -84,13 +86,13 @@
           </div>
         </div>
       </div>
-      <div>
+      <div class="md:px-0 px-4" v-for="value in listCategoryChild" :key="value">
         <div class="flex justify-center">
-          <TitleProduct :title="'Android Box ô tô'" />
+          <TitleProduct :title="value.name" />
         </div>
         <div class="w-full flex justify-center py-4">
           <div class="xl:w-[1000px] lg:w-[950px] 2xl:w-[1240px] w-[300px] md:w-[700px]">
-            <Carousel :data="products" />
+            <Carousel :data="value.product" />
           </div>
         </div>
       </div>
@@ -105,7 +107,7 @@ import Carousel from "./components/Carousel.vue";
 import TitleProduct from "@/components/TitleProduct.vue";
 import { products, banners } from "@/dump/dump.ts";
 import apiService  from "@/service/service.ts";
-import { computed, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 
 const breadcrumbItems = [
   { text: "Home", to: "/" },
@@ -115,8 +117,18 @@ const carouselHeight = ref("295px");
 const listCategory = ref([]);
 const listCategoryDiscount = ref([]);
 const listBanner = ref([]);
+const listProductDiscount = ref([]);
+const listCategoryChild = ref([]);
 const currentFooter = ref("");
 const descFooter = ref("");
+const searchDiscount = reactive({
+  hot: 1,
+  category_id: [],
+});
+const searchCategoryChild = reactive({
+  product_name: "",
+  category_id: 0,
+});
 
 const updateFooter = (index) => {
   currentFooter.value = listBanner?.value[index].title;
@@ -134,11 +146,11 @@ const updateCarouselHeight = () => {
   }
 };
 const getCategory = async () => {
-  let response = await apiService.getAll('/category');  
+  const response = await apiService.getAll('/category');  
   listCategory.value = response.data.data;
 }
 const getCategoryDiscount = async () => {
-  let response = await apiService.getAll('/category', {discount: true});  
+  const response = await apiService.getAll('/category', {discount: true});  
   listCategoryDiscount.value = response.data.data;
 }
 const getBanner = async () => {
@@ -146,6 +158,22 @@ const getBanner = async () => {
   listBanner.value = response.data.data;
   currentFooter.value = listBanner.value[0].title
   descFooter.value = listBanner.value[0].content
+}
+const getProduct = async (category) => {
+  if (category) {
+    searchDiscount.category_id = [category]; 
+  }
+  const response = await apiService.postAll('/product', searchDiscount);
+  listProductDiscount.value = response.data.data.items;
+}
+const getCategoryChild = async (category) => {
+  if (category) {
+    searchCategoryChild.category_id = category; 
+  }
+  console.log(searchCategoryChild);
+  
+  const response = await apiService.postAll('/category-child', searchCategoryChild);
+  listCategoryChild.value = response.data.data;
 }
 
 const listButtonCategory = computed(() => {
@@ -164,6 +192,8 @@ onMounted(() => {
   getCategory();
   getCategoryDiscount();
   getBanner();
+  getProduct();
+  getCategoryChild();
 });
 </script>
 
@@ -180,7 +210,7 @@ onMounted(() => {
 
 @media (max-width: 480px) {
   .custom-carousel {
-    height: 80px;
+    height: 80px !important;
   }
 }
 

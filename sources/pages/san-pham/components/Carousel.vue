@@ -2,16 +2,19 @@
   <Carousel :autoplay="2000" v-bind="settings" :breakpoints="breakpoints">
     <Slide v-for="(value, index) in data" :key="index">
       <div
-        class="carousel__item w-full border p-4 transition-transform duration-300 transform hover:scale-105"
+      :title="value.product_name"
+        class="cursor-pointer carousel__item w-full border p-4 transition-transform duration-300 transform hover:scale-105 h-[345px]"
       >
         <img
           :src="value.img"
           class="max-h-[232px] max-w-[232px] mb-3"
           alt="no-img"
         />
-        <span class="font-bold text-base">{{ value.product_name }}</span>
+        <div class="font-bold text-base truncate w-full">
+          {{ value.product_name }}
+        </div>
         <el-button
-          class="btn-none !h-[35px] md:w-[170px] mt-4 !hover:bg-[#DC0F0F] !hover:text-[#FFFFFF]"
+          class="btn-none !h-[35px] md:w-[170px] mt-2 !hover:bg-[#DC0F0F] !hover:text-[#FFFFFF]"
         >
           Mua ngay
         </el-button>
