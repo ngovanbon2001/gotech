@@ -6,8 +6,7 @@
     <section class="product-sale">
       <PromoBanner :title="'Sản phẩm khuyến mãi'" />
       <div class="w-full flex justify-center md:gap-10 py-6">
-        <el-button class="btn-none !h-10 md:w-[228px]">Màn hình ô tô</el-button>
-        <el-button class="btn-none !h-10 md:w-[228px]">Android Box</el-button>
+        <el-button v-for="value in listButtonCategory" :key="value" class="btn-none !h-10 md:w-[228px]">{{ value.name }}</el-button>
       </div>
       <div class="w-full flex justify-center">
         <div class="relative w-full xl:w-[1000px] 2xl:w-[1240px] px-4 md:px-0">
@@ -19,9 +18,9 @@
             :height="carouselHeight"
             @change="updateFooter"
           >
-            <el-carousel-item v-for="item in banners" :key="item.id">
+            <el-carousel-item v-for="item in listBanner" :key="item.id">
               <img
-                class="transition-transform duration-300 transform hover:scale-105"
+                class="transition-transform duration-300 transform hover:scale-105 w-full"
                 :src="item.img"
                 alt=""
               />
@@ -34,7 +33,7 @@
             </div>
           </div>
           <div class="w-full flex justify-center">
-            <p class="w-[874px] text-justify">{{ descFooter }}</p>
+            <p class="w-[874px] text-justify" v-html="descFooter"></p>
           </div>
         </div>
       </div>
@@ -78,10 +77,10 @@
             :key="key"
             class="flex flex-col justify-center items-center transition-transform duration-300 transform hover:scale-105"
           >
-            <div class="flex w-full justify-center">
-              <img :src="value.img" alt="no-img" />
+            <div class="flex justify-center items-center w-[84px] h-[84px] bg-[#F8F8F8] rounded-[50%]">
+              <img class="w-[63px] h-[44.91px]" :src="value.img" alt="no-img" />
             </div>
-            <div class="font-bold text-lg text-center">{{ value.name }}</div>
+            <div class="font-bold md:text-lg text-sm text-center">{{ value.name }}</div>
           </div>
         </div>
       </div>
@@ -104,19 +103,24 @@ import Breadcrumb from "@/components/Breadcrumb.vue";
 import PromoBanner from "@/components/PromoBanner.vue";
 import Carousel from "./components/Carousel.vue";
 import TitleProduct from "@/components/TitleProduct.vue";
-import { products, banners, categories } from "@/dump/dump.ts";
+import { products, banners } from "@/dump/dump.ts";
+import apiService  from "@/service/service.ts";
+import { computed, ref } from "vue";
 
 const breadcrumbItems = [
   { text: "Home", to: "/" },
   { text: "Sản phẩm", to: "/product" },
 ];
-const currentFooter = ref(banners.value[0].title);
-const descFooter = ref(banners.value[0]?.description);
 const carouselHeight = ref("295px");
+const listCategory = ref([]);
+const listCategoryDiscount = ref([]);
+const listBanner = ref([]);
+const currentFooter = ref("");
+const descFooter = ref("");
 
 const updateFooter = (index) => {
-  currentFooter.value = banners.value[index].title;
-  descFooter.value = banners.value[index]?.description;
+  currentFooter.value = listBanner?.value[index].title;
+  descFooter.value = listBanner?.value[index]?.content;
 };
 const updateCarouselHeight = () => {
   if (typeof window !== "undefined") {
@@ -129,10 +133,37 @@ const updateCarouselHeight = () => {
     }
   }
 };
+const getCategory = async () => {
+  let response = await apiService.getAll('/category');  
+  listCategory.value = response.data.data;
+}
+const getCategoryDiscount = async () => {
+  let response = await apiService.getAll('/category', {discount: true});  
+  listCategoryDiscount.value = response.data.data;
+}
+const getBanner = async () => {
+  let response = await apiService.postAll('/banners');  
+  listBanner.value = response.data.data;
+  currentFooter.value = listBanner.value[0].title
+  descFooter.value = listBanner.value[0].content
+}
+
+const listButtonCategory = computed(() => {
+  return listCategoryDiscount.value.slice(0, 2);
+});
+const categories = computed(() => {
+  return listCategory.value;
+});
+const banners1 = computed(() => {
+  return listBanner.value;
+});
 
 onMounted(() => {
   updateCarouselHeight();
   window.addEventListener("resize", updateCarouselHeight);
+  getCategory();
+  getCategoryDiscount();
+  getBanner();
 });
 </script>
 
@@ -150,6 +181,12 @@ onMounted(() => {
 @media (max-width: 480px) {
   .custom-carousel {
     height: 80px;
+  }
+}
+
+@media (max-width: 1400px) {
+  .custom-carousel {
+    height: 250px;
   }
 }
 

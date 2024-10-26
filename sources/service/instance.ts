@@ -1,9 +1,7 @@
 import axios from 'axios'
 
 export const instance = axios.create({
-  baseURL: 'https://some-domain.com/api/',
-  timeout: 1000,
-  headers: { 'X-Custom-Header': 'foobar' },
+  baseURL: 'http://127.0.0.1:8001/api',
 })
 
 export default instance
