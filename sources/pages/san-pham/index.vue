@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content" v-loading="loading">
     <section class="flex justify-center">
       <Breadcrumb :items="breadcrumbItems" />
     </section>
@@ -59,7 +59,7 @@
           >Tìm kiếm</el-button
         >
       </div>
-      <div class="mt-4 mb-10 xl:ml-[29px] mx-4 xl:flex">
+      <div class="mt-4 mb-10 xl:ml-[29px] mx-4 lg:flex">
         <div
           class="category py-3 xl:w-[382px] xl:mr-8 md:w-[200px] w-full overflow-y-auto"
         >
@@ -72,7 +72,7 @@
             {{ value.name }}
           </div>
         </div>
-        <div class="grid xl:grid-cols-6 grid-cols-3 xl:w-[1046px] md:my-0 my-4">
+        <div class="grid lg:grid-cols-6 grid-cols-3 xl:w-[1046px] md:my-0 my-4">
           <div
             v-for="(value, key) in categories"
             :key="key"
@@ -82,7 +82,7 @@
             <div class="flex justify-center items-center w-[84px] h-[84px] bg-[#F8F8F8] rounded-[50%]">
               <img class="w-[63px] h-[44.91px]" :src="value.img" alt="no-img" />
             </div>
-            <div class="font-bold md:text-lg text-sm text-center">{{ value.name }}</div>
+            <div class="font-bold xl:text-lg text-sm text-center">{{ value.name }}</div>
           </div>
         </div>
       </div>
@@ -129,6 +129,7 @@ const searchCategoryChild = reactive({
   product_name: "",
   category_id: 0,
 });
+const loading = ref(false);
 
 const updateFooter = (index) => {
   currentFooter.value = listBanner?.value[index].title;
@@ -160,20 +161,22 @@ const getBanner = async () => {
   descFooter.value = listBanner.value[0].content
 }
 const getProduct = async (category) => {
+  loading.value = true;
   if (category) {
     searchDiscount.category_id = [category]; 
   }
   const response = await apiService.postAll('/product', searchDiscount);
   listProductDiscount.value = response.data.data.items;
+  loading.value = false;
 }
 const getCategoryChild = async (category) => {
+  loading.value = true;
   if (category) {
     searchCategoryChild.category_id = category; 
   }
-  console.log(searchCategoryChild);
-  
   const response = await apiService.postAll('/category-child', searchCategoryChild);
   listCategoryChild.value = response.data.data;
+  loading.value = false;
 }
 
 const listButtonCategory = computed(() => {

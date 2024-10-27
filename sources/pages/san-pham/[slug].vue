@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content" v-loading="loading">
     <section class="flex justify-center">
       <Breadcrumb :items="breadcrumbItems" />
     </section>
@@ -21,7 +21,12 @@
               <Navigation />
             </template>
           </Carousel>
-          <Carousel id="thumbnails" :items-to-show="5" :wrap-around="true">
+          <Carousel
+            class="py-4"
+            id="thumbnails"
+            :items-to-show="5"
+            :wrap-around="true"
+          >
             <Slide v-for="value in slide" :key="value">
               <div
                 class="carousel__item cursor-pointer h-[100px] flex flex-col items-center transition-transform duration-300 transform hover:scale-105"
@@ -42,21 +47,21 @@
         </div>
         <div class="lg:w-[500px] xl:w-[646px] w-full">
           <span class="font-bold text-2xl text-[#3F3F3F]">{{
-            product.data.product_name
+            product.data?.product_name
           }}</span>
           <div>
             <span class="font-bold text-[22px] text-[#E70F0F] mr-8"
-              >{{ formatMoney(product.data.price) }}đ</span
+              >{{ formatMoney(product.data?.discount) }}đ</span
             >
             <del class="font-bold text-[22px] text-[#464646]"
-              >{{ formatMoney(product.data.discount) }}đ</del
+              >{{ formatMoney(product.data?.price) }}đ</del
             >
           </div>
           <div
             class="w-full grid md:grid-cols-2 grid-cols-1 gap-2 rounded-xl py-4"
           >
             <img
-              v-for="value in banner.data"
+              v-for="value in banners"
               :key="value"
               class="w-full h-[76px]"
               :src="value.img"
@@ -71,7 +76,7 @@
             >
             <div class="grid md:grid-cols-2 grid-cols-1">
               <div
-                v-for="value in product.data.feature"
+                v-for="value in product.data?.feature"
                 :key="value"
                 class="flex gap-2 items-center py-1"
               >
@@ -91,7 +96,7 @@
                 >Điểm nổi bật của sản phẩm</span
               >
               <div
-                v-for="value in product.data.characteristics"
+                v-for="value in product.data?.characteristics"
                 :key="value"
                 class="flex gap-2 items-center py-4 border-b"
               >
@@ -104,6 +109,8 @@
             </div>
             <div class="grid grid-rows-4 gap-4 lg:w-[45%] xl:w-[282px] w-full">
               <div
+                v-for="value in configs"
+                :key="value"
                 class="border flex items-center lg:my-0 my-4 py-2 px-2 xl:py-2 xl:px-4 border-[#54A0FF] rounded-md"
               >
                 <div class="flex gap-2 items-center">
@@ -111,24 +118,10 @@
                     src="/images/check-1.png"
                     class="h-[19px]"
                     alt="no-img"
-                  /><span class="font-normal text-sm"
-                    >100% HÀNG CHÍNH HÃNG <br />
-                    Hệ thống đại lý toàn quốc</span
-                  >
-                </div>
-              </div>
-              <div
-                class="border flex items-center lg:my-0 my-4 py-2 px-2 xl:py-2 xl:px-4 border-[#54A0FF] rounded-md"
-              >
-                <div class="flex gap-2 items-center">
-                  <img
-                    src="/images/check-1.png"
-                    class="h-[19px]"
-                    alt="no-img"
-                  /><span class="font-normal text-sm"
-                    >100% HÀNG CHÍNH HÃNG <br />
-                    Hệ thống đại lý toàn quốc</span
-                  >
+                  /><span
+                    v-html="value.value"
+                    class="font-normal text-sm"
+                  ></span>
                 </div>
               </div>
             </div>
@@ -162,7 +155,7 @@
         >
         <div class="w-full py-4 gap-4 grid grid-cols-5">
           <div
-            v-for="value in product.data.video"
+            v-for="value in product.data?.video"
             :key="value"
             class="flex flex-col justify-center"
           >
@@ -198,7 +191,7 @@
               alt=""
             />
             <span class="py-2 overflow-hidden font-normal text-sm">{{
-              value.description
+              value.description ?? "Hình ảnh trên xe"
             }}</span>
           </div>
         </div>
@@ -214,13 +207,13 @@
           >
             Mô tả sản phẩm
           </div>
-          <div v-html="product.data.description"></div>
+          <div v-html="product.data?.description"></div>
           <div class="w-full">
             <img src="/images/comment.png" alt="" />
           </div>
           <div class="description-container">
             <div
-              v-html="showFullText ? product.data.content : shortDescription"
+              v-html="showFullText ? product.data?.content : shortDescription"
             ></div>
             <!-- Chỉ hiển thị hiệu ứng mờ khi không hiển thị đầy đủ văn bản -->
             <div v-if="!showFullText" class="fade-effect"></div>
@@ -256,7 +249,11 @@
                 placeholder="Nội dung"
               />
             </div>
-            <div class="py-2"><el-button class="!h-[46px] !w-[130px]" type="primary">Gửi câu hỏi</el-button></div>
+            <div class="py-2">
+              <el-button class="!h-[46px] !w-[130px]" type="primary"
+                >Gửi câu hỏi</el-button
+              >
+            </div>
           </div>
         </div>
         <div class="lg:col-span-1 col-span-3">
@@ -340,7 +337,9 @@
             Sản phẩm thường mua cùng
           </div>
           <div class="w-full">
-            <div class="flex gap-2 py-2 transition-transform duration-300 transform hover:scale-105">
+            <div
+              class="flex gap-2 py-2 transition-transform duration-300 transform hover:scale-105"
+            >
               <img
                 class="w-[70px] h-[70px]"
                 src="/images/san-pham-01.png"
@@ -358,7 +357,9 @@
       </div>
     </section>
     <!-- Sản phẩm cùng phân khúc -->
-    <section class="lg:flex justify-center my-4 overflow-x-auto">
+    <section
+      class="lg:flex justify-center my-4 overflow-y-hidden overflow-x-auto"
+    >
       <div
         class="w-[1240px] lg:w-[900px] xl:w-[1100px] 2xl:w-[1240px] lg:px-0 px-4"
       >
@@ -418,18 +419,19 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import CarouselP from "./components/Carousel.vue";
-import {
-  product,
-  settings,
-  breakpoints,
-  slide,
-  banner,
-  products,
-} from "@/dump/dump.ts";
+import { settings, breakpoints, slide, banner, products } from "@/dump/dump.ts";
 import { formatMoney } from "@/helper/helper.ts";
+import { useRoute } from "vue-router";
+import apiService from "@/service/service.ts";
+import { constant } from "@/constant/constant";
 
+const route = useRoute();
+const slug = route.params.slug;
+const product = ref([]);
+const configs = ref([]);
+const loading = ref(false);
 const breadcrumbItems = [
   { text: "Home", to: "/" },
   { text: "Sản phẩm", to: "/product" },
@@ -438,22 +440,55 @@ const carousel = ref(null);
 const currentType = ref(1);
 let activeThumbnail = null;
 const showFullText = ref(false);
-const shortDescription =
-  product.data.description.replace(/(<([^>]+)>)/gi, "").slice(0, 400) + "..."; // Ví dụ chỉ lấy 200 ký tự của nội dung mà không cắt ảnh
+const listBanner = ref([]);
 
+const shortDescription = computed(() => {
+  return (
+    product.value.data?.description.replace(/(<([^>]+)>)/gi, "").slice(0, 400) +
+    "..."
+  );
+});
 const slideTo = (id) => {
   const index = filteredImages.value.findIndex((image) => image.type === id);
   carousel.value.slideTo(index);
 };
-const filteredImages = computed(() => {
-  return product.data.image;
-});
-const listImgInSide = computed(() => {
-  return product.data.image.filter((item) => item.type === 5);
-});
 const toggleText = () => {
   showFullText.value = !showFullText.value;
 };
+const getProduct = async () => {
+  loading.value = true;
+  const response = await apiService.getAll(`/product/${slug}`);
+  product.value = response.data;
+  loading.value = false;
+};
+const getConfig = async () => {
+  const response = await apiService.postAll(`/get-config`, {
+    filter: constant.common_commitment,
+  });
+  configs.value = response.data.data;
+};
+const getBanner = async () => {
+  let response = await apiService.postAll('/banners');  
+  listBanner.value = response.data.data;
+}
+
+const filteredImages = computed(() => {
+  return product.value.data?.image;
+});
+const listImgInSide = computed(() => {
+  return product.value.data?.image.filter(
+    (item) => item.type === constant.type_in_side
+  );
+});
+const banners = computed(() => {
+  return listBanner.value.slice(0,2);
+});
+
+onMounted(() => {
+  getProduct();
+  getConfig();
+  getBanner();
+});
 </script>
 
 <style lang="scss" scoped>
