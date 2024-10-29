@@ -109,6 +109,7 @@ import { products, banners } from "@/dump/dump.ts";
 import apiService  from "@/service/service.ts";
 import { computed, reactive, ref } from "vue";
 
+// Const
 const breadcrumbItems = [
   { text: "Home", to: "/" },
   { text: "Sản phẩm", to: "/product" },
@@ -130,7 +131,9 @@ const searchCategoryChild = reactive({
   category_id: 0,
 });
 const loading = ref(false);
+// End const
 
+// Function
 const updateFooter = (index) => {
   currentFooter.value = listBanner?.value[index].title;
   descFooter.value = listBanner?.value[index]?.content;
@@ -178,7 +181,9 @@ const getCategoryChild = async (category) => {
   listCategoryChild.value = response.data.data;
   loading.value = false;
 }
+// End function
 
+// Computed
 const listButtonCategory = computed(() => {
   return listCategoryDiscount.value.slice(0, 2);
 });
@@ -188,6 +193,7 @@ const categories = computed(() => {
 const banners1 = computed(() => {
   return listBanner.value;
 });
+// End computed
 
 onMounted(() => {
   updateCarouselHeight();

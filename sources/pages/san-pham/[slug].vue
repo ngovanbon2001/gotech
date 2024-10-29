@@ -8,6 +8,7 @@
         class="flex px-2 md:px-9 lg:px-0 lg:flex-row flex-col items-center-ct justify-center lg:gap-10"
       >
         <div class="w-full md:w-[400px] 2xl:w-[554px]">
+          <!-- Hình ảnh sản phẩm -->
           <Carousel v-bind="settings" :breakpoints="breakpoints" ref="carousel">
             <Slide v-for="(value, index) in filteredImages" :key="index">
               <div
@@ -21,6 +22,7 @@
               <Navigation />
             </template>
           </Carousel>
+          <!-- Menu đặc điểm -->
           <Carousel
             class="py-4"
             id="thumbnails"
@@ -140,8 +142,6 @@
           </div>
         </div>
       </div>
-
-      <!-- <div v-html="product?.data?.description"></div> -->
     </section>
 
     <section
@@ -169,7 +169,7 @@
         </div>
       </div>
     </section>
-
+    <!-- Hình ảnh trên xe -->
     <section class="image lg:flex justify-center my-4 overflow-x-auto">
       <div
         class="w-[1240px] lg:w-[900px] xl:w-[1100px] 2xl:w-[1240px] lg:px-0 px-4"
@@ -178,7 +178,7 @@
           >HÌNH ẢNH THỰC TẾ TRÊN XE</span
         >
         <div
-          class="w-[95%] py-4 gap-4 grid grid-cols-5 overflow-x-auto md:overflow-hidden"
+          class="cursor-pointer w-[95%] py-4 gap-4 grid grid-cols-5 overflow-x-auto overflow-y-hidden md:overflow-hidden"
         >
           <div
             class="border p-1 border-[#DFDFE7] text-left h-[232px] max-w-[169px]"
@@ -197,10 +197,12 @@
         </div>
       </div>
     </section>
+
     <section class="flex justify-center my-4">
       <div
         class="w-[1240px] lg:w-[900px] xl:w-[1100px] 2xl:w-[1240px] lg:px-0 px-4 grid grid-cols-3 gap-4"
       >
+        <!-- Mô tả sản phẩm -->
         <div class="lg:col-span-2 col-span-3">
           <div
             class="uppercase w-full py-4 border-b border-[#000000] font-bold text-[18px]"
@@ -233,16 +235,19 @@
             >
             <div class="py-2 pt-4 grid grid-cols-2 gap-4">
               <div class="col-span-2 lg:col-span-1">
-                <el-input v-model="input" placeholder="Họ tên" />
+                <el-input v-model="question.name" placeholder="Họ tên" />
               </div>
               <div class="col-span-2 lg:col-span-1">
-                <el-input v-model="input" placeholder="Số điện thoại" />
+                <el-input
+                  v-model="question.phone"
+                  placeholder="Số điện thoại"
+                />
               </div>
             </div>
             <div>
               <el-input
                 class="custom-textarea"
-                v-model="textarea1"
+                v-model="question.question"
                 autosize
                 type="textarea"
                 show-word-limit
@@ -250,12 +255,16 @@
               />
             </div>
             <div class="py-2">
-              <el-button class="!h-[46px] !w-[130px]" type="primary"
+              <el-button
+                @click="handleSendQuestion"
+                class="!h-[46px] !w-[130px]"
+                type="primary"
                 >Gửi câu hỏi</el-button
               >
             </div>
           </div>
         </div>
+        <!-- Thông số kỹ thuật -->
         <div class="lg:col-span-1 col-span-3">
           <div
             class="uppercase w-full py-4 border-b border-[#000000] font-bold text-[18px]"
@@ -267,63 +276,63 @@
           >
             <div class="flex justify-between py-1 border-b border-[#DBDBDB]">
               <p>RAM</p>
-              <p>2GB</p>
+              <p>{{ product.data?.specifications?.ram }}</p>
             </div>
             <div class="flex justify-between py-1 border-b border-[#DBDBDB]">
               <p>ROM</p>
-              <p>2GB</p>
+              <p>{{ product.data?.specifications?.rom }}</p>
             </div>
             <div class="flex justify-between py-1 border-b border-[#DBDBDB]">
               <p>CPU</p>
-              <p>2GB</p>
+              <p>{{ product.data?.specifications?.cpu }}</p>
             </div>
             <div class="flex justify-between py-1 border-b border-[#DBDBDB]">
               <p>GPU</p>
-              <p>2GB</p>
+              <p>{{ product.data?.specifications?.gpu }}</p>
             </div>
             <div class="flex justify-between py-1 border-b border-[#DBDBDB]">
               <p>Hệ điều hành</p>
-              <p>2GB</p>
+              <p>{{ product.data?.specifications?.operating_system }}</p>
             </div>
             <div class="flex justify-between py-1 border-b border-[#DBDBDB]">
               <p>Màn hình</p>
-              <p>2GB</p>
+              <p>{{ product.data?.specifications?.display }}</p>
             </div>
             <div class="flex justify-between py-1 border-b border-[#DBDBDB]">
               <p>Độ phân giải</p>
-              <p>2GB</p>
+              <p>{{ product.data?.specifications?.resolution }}</p>
             </div>
             <div class="flex justify-between py-1 border-b border-[#DBDBDB]">
               <p>Kết nối internet 4G</p>
-              <p>2GB</p>
+              <p>{{ product.data?.specifications?.internet_4g }}</p>
             </div>
             <div class="flex justify-between py-1 border-b border-[#DBDBDB]">
               <p>Phát Wifi</p>
-              <p>2GB</p>
+              <p>{{ product.data?.specifications?.wifi }}</p>
             </div>
             <div class="flex justify-between py-1 border-b border-[#DBDBDB]">
               <p>Radio FM/AM</p>
-              <p>2GB</p>
+              <p>{{ product.data?.specifications?.radio }}</p>
             </div>
             <div class="flex justify-between py-1 border-b border-[#DBDBDB]">
               <p>Bluetooth</p>
-              <p>2GB</p>
+              <p>{{ product.data?.specifications?.bluetooth }}</p>
             </div>
             <div class="flex justify-between py-1 border-b border-[#DBDBDB]">
               <p>Kết nối hệ thống loa trên xe</p>
-              <p>2GB</p>
+              <p>{{ product.data?.specifications?.speaker }}</p>
             </div>
             <div class="flex justify-between py-1 border-b border-[#DBDBDB]">
               <p>Hỗ trợ tích hợp cảm biến áp suất lốp</p>
-              <p>2GB</p>
+              <p>{{ product.data?.specifications?.sensor }}</p>
             </div>
             <div class="flex justify-between py-1 border-b border-[#DBDBDB]">
               <p>Bộ xử lý âm thanh số DSP</p>
-              <p>2GB</p>
+              <p>{{ product.data?.specifications?.audio_processor }}</p>
             </div>
             <div class="flex justify-between py-1 border-b border-[#DBDBDB]">
               <p>Kho ứng dụng CH Play</p>
-              <p>2GB</p>
+              <p>{{ product.data?.specifications?.application }}</p>
             </div>
             <div class="py-2">
               <el-button class="w-full" type="primary" plain
@@ -331,6 +340,7 @@
               >
             </div>
           </div>
+          <!-- Sản phẩm mua cùng -->
           <div
             class="uppercase w-full pb-4 border-b border-[#000000] font-bold text-[18px]"
           >
@@ -338,7 +348,9 @@
           </div>
           <div class="w-full">
             <div
-              class="flex gap-2 py-2 transition-transform duration-300 transform hover:scale-105"
+              v-for="value in listProductHot"
+              :key="value"
+              class="cursor-pointer flex gap-2 py-2 transition-transform duration-300 transform hover:scale-105"
             >
               <img
                 class="w-[70px] h-[70px]"
@@ -346,10 +358,12 @@
                 alt="no-img"
               />
               <div class="flex flex-col">
+                <span class="font-normal text-sm">{{
+                  value.product_name
+                }}</span>
                 <span class="font-normal text-sm"
-                  >Loa GOSUB 10 cho xe ô tô</span
+                  >{{ formatMoney(value.price) }}đ</span
                 >
-                <span class="font-normal text-sm">6.700.000đ</span>
               </div>
             </div>
           </div>
@@ -368,48 +382,19 @@
         </div>
         <div class="flex gap-4">
           <div
-            class="border border-[#DFDFE7] p-2 w-[229px] h-[289px] bg-[#FCFCFC] transition-transform duration-300 transform hover:scale-105"
+            v-for="value in listProductSegment"
+            :key="value"
+            :title="value.product_name"
+            class="cursor-pointer border border-[#DFDFE7] p-2 w-[229px] h-[289px] bg-[#FCFCFC] transition-transform duration-300 transform hover:scale-105"
           >
             <img src="/images/san-pham-01.png" class="h-206px" alt="no-img" />
             <div class="flex flex-col py-4">
-              <span class="font-bold text-sm">GOTECH GT2K PRO</span>
-              <span class="font-bold text-sm text-[#DC0F0F]">6.700.000đ</span>
-            </div>
-          </div>
-          <div
-            class="border border-[#DFDFE7] p-2 w-[229px] h-[289px] bg-[#FCFCFC] transition-transform duration-300 transform hover:scale-105"
-          >
-            <img src="/images/san-pham-01.png" class="h-206px" alt="no-img" />
-            <div class="flex flex-col py-4">
-              <span class="font-bold text-sm">GOTECH GT2K PRO</span>
-              <span class="font-bold text-sm text-[#DC0F0F]">6.700.000đ</span>
-            </div>
-          </div>
-          <div
-            class="border border-[#DFDFE7] p-2 w-[229px] h-[289px] bg-[#FCFCFC] transition-transform duration-300 transform hover:scale-105"
-          >
-            <img src="/images/san-pham-01.png" class="h-206px" alt="no-img" />
-            <div class="flex flex-col py-4">
-              <span class="font-bold text-sm">GOTECH GT2K PRO</span>
-              <span class="font-bold text-sm text-[#DC0F0F]">6.700.000đ</span>
-            </div>
-          </div>
-          <div
-            class="border border-[#DFDFE7] p-2 w-[229px] h-[289px] bg-[#FCFCFC] transition-transform duration-300 transform hover:scale-105"
-          >
-            <img src="/images/san-pham-01.png" class="h-206px" alt="no-img" />
-            <div class="flex flex-col py-4">
-              <span class="font-bold text-sm">GOTECH GT2K PRO</span>
-              <span class="font-bold text-sm text-[#DC0F0F]">6.700.000đ</span>
-            </div>
-          </div>
-          <div
-            class="border border-[#DFDFE7] p-2 w-[229px] h-[289px] bg-[#FCFCFC] transition-transform duration-300 transform hover:scale-105"
-          >
-            <img src="/images/san-pham-01.png" class="h-206px" alt="no-img" />
-            <div class="flex flex-col py-4">
-              <span class="font-bold text-sm">GOTECH GT2K PRO</span>
-              <span class="font-bold text-sm text-[#DC0F0F]">6.700.000đ</span>
+              <span class="font-bold text-sm truncate w-full">{{
+                value.product_name
+              }}</span>
+              <span class="font-bold text-sm text-[#DC0F0F]"
+                >{{ formatMoney(value.price) }}đ</span
+              >
             </div>
           </div>
         </div>
@@ -426,7 +411,9 @@ import { formatMoney } from "@/helper/helper.ts";
 import { useRoute } from "vue-router";
 import apiService from "@/service/service.ts";
 import { constant } from "@/constant/constant";
+import { ElMessage } from "element-plus";
 
+// Const
 const route = useRoute();
 const slug = route.params.slug;
 const product = ref([]);
@@ -441,13 +428,18 @@ const currentType = ref(1);
 let activeThumbnail = null;
 const showFullText = ref(false);
 const listBanner = ref([]);
-
-const shortDescription = computed(() => {
-  return (
-    product.value.data?.description.replace(/(<([^>]+)>)/gi, "").slice(0, 400) +
-    "..."
-  );
+const listProduct = ref([]);
+const listProductSegment = ref([]);
+const question = ref({
+  product_id: product.id,
+  question: "",
+  name: "",
+  phone: "",
+  car: "",
 });
+// End const
+
+// Function
 const slideTo = (id) => {
   const index = filteredImages.value.findIndex((image) => image.type === id);
   carousel.value.slideTo(index);
@@ -459,6 +451,14 @@ const getProduct = async () => {
   loading.value = true;
   const response = await apiService.getAll(`/product/${slug}`);
   product.value = response.data;
+  const responseList = await apiService.postAll("/product", {
+    brand_id: [response.data?.data?.brand_id],
+  });
+  listProduct.value = responseList.data.data.items;
+  const responseListSegment = await apiService.postAll("/product", {
+    price: [response.data?.data?.price, response.data?.data?.price + 1000000],
+  });
+  listProductSegment.value = responseListSegment.data.data.items;
   loading.value = false;
 };
 const getConfig = async () => {
@@ -468,10 +468,21 @@ const getConfig = async () => {
   configs.value = response.data.data;
 };
 const getBanner = async () => {
-  let response = await apiService.postAll('/banners');  
-  listBanner.value = response.data.data;
-}
+  const response = await apiService.postAll("/banners");
+  listBanner.value = response.data?.data;
+};
+const handleSendQuestion = async () => {
+  const response = await apiService.postAll("/question", question.value);
+  if (response.data.code === 200) {
+    ElMessage({
+      message: "Gửi thành công.",
+      type: "success",
+    });
+  }
+};
+// End function
 
+// Computed
 const filteredImages = computed(() => {
   return product.value.data?.image;
 });
@@ -481,8 +492,18 @@ const listImgInSide = computed(() => {
   );
 });
 const banners = computed(() => {
-  return listBanner.value.slice(0,2);
+  return listBanner.value.slice(0, 2);
 });
+const listProductHot = computed(() => {
+  return listProduct.value.slice(0, 5);
+});
+const shortDescription = computed(() => {
+  return (
+    product.value.data?.description.replace(/(<([^>]+)>)/gi, "").slice(0, 400) +
+    "..."
+  );
+});
+// End computed
 
 onMounted(() => {
   getProduct();
