@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content" v-loading="loading">
     <section class="flex justify-center bg-[#F4F4F4]">
       <Breadcrumb :items="breadcrumbItems" />
     </section>
@@ -10,51 +10,53 @@
         <div class="grid grid-cols-4 lg:w-[856px] w-full gap-8">
           <div class="md:col-span-1 col-span-4">
             <el-select
-              v-model="value"
+              v-model="brand_id"
               placeholder="Chọn hãng xe"
               size="large"
               class="custom-select"
+              @change="handleSelectBrand"
             >
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                v-for="item in listBrand"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
               />
             </el-select>
           </div>
+
           <div class="md:col-span-1 col-span-4">
             <el-select
-              v-model="value"
+              v-model="car_id"
               placeholder="Chọn tên xe"
               size="large"
               class="custom-select"
             >
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                v-for="item in filteredCars"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
               />
             </el-select>
           </div>
           <div class="md:col-span-1 col-span-4">
             <el-select
-              v-model="value"
+              v-model="category_id"
               placeholder="Chọn sản phẩm"
               size="large"
               class="custom-select"
             >
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                v-for="item in listCategory"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
               />
             </el-select>
           </div>
           <div class="md:col-span-1 col-span-4">
-            <el-button class="red-DC0F0F !h-10 w-full">Tìm sản phẩm</el-button>
+            <el-button @click="handleClickSearch" class="red-DC0F0F !h-10 w-full">Tìm sản phẩm</el-button>
           </div>
         </div>
       </div>
@@ -63,74 +65,40 @@
         <div
           class="xl:w-[1000px] lg:w-[950px] 2xl:w-[1240px] w-full md:w-[700px] grid lg:grid-cols-12 grid-cols-4 xl:gap-4 gap-2 py-4 px-2"
         >
-          <el-dropdown v-for="i in 12" :key="i" @command="handleCommand">
+          <el-dropdown
+            v-for="value in listBrand"
+            :key="value"
+            @command="handleCommand"
+          >
             <template #dropdown>
-              <el-dropdown-menu>
+              <el-dropdown-menu v-model="car_id">
                 <el-dropdown-item
-                  v-for="(option, index) in options"
+                  v-for="(option, index) in value.cars"
                   :key="index"
+                  :value="option.id"
                   :command="option.value"
+                  @click="updateDrop(option.id)"
                 >
-                  {{ option.label }}
+                  {{ option.name }}
                 </el-dropdown-item>
               </el-dropdown-menu>
             </template>
-          <img
-            class="w-[93px] h-[51px]"
-            src="/images/logo-1.png"
-            alt="no-img"
-          />
+            <img class="w-[93px] h-[51px]" :src="value.img" alt="no-img" />
           </el-dropdown>
         </div>
       </div>
     </section>
     <!-- Sản phẩm theo xe -->
     <section class="product-category pt-8 pb-4">
-      <div>
+      <div v-for="value in listCategoryChild" :key="value">
         <div class="flex justify-center">
-          <TitleProduct :title="'Android Box ô tô'" />
+          <TitleProduct :title="value.name" />
         </div>
         <div class="w-full flex justify-center py-4">
           <div
             class="xl:w-[1000px] 2xl:w-[1240px] w-[300px] md:w-[700px] lg:w-[950px]"
           >
-            <CarouselPR :data="products" />
-          </div>
-        </div>
-      </div>
-            <div>
-        <div class="flex justify-center">
-          <TitleProduct :title="'Android Box ô tô'" />
-        </div>
-        <div class="w-full flex justify-center py-4">
-          <div
-            class="xl:w-[1000px] 2xl:w-[1240px] w-[300px] md:w-[700px] lg:w-[950px]"
-          >
-            <CarouselPR :data="products" />
-          </div>
-        </div>
-      </div>
-            <div>
-        <div class="flex justify-center">
-          <TitleProduct :title="'Android Box ô tô'" />
-        </div>
-        <div class="w-full flex justify-center py-4">
-          <div
-            class="xl:w-[1000px] 2xl:w-[1240px] w-[300px] md:w-[700px] lg:w-[950px]"
-          >
-            <CarouselPR :data="products" />
-          </div>
-        </div>
-      </div>
-            <div>
-        <div class="flex justify-center">
-          <TitleProduct :title="'Android Box ô tô'" />
-        </div>
-        <div class="w-full flex justify-center py-4">
-          <div
-            class="xl:w-[1000px] 2xl:w-[1240px] w-[300px] md:w-[700px] lg:w-[950px]"
-          >
-            <CarouselPR :data="products" />
+            <CarouselPR :data="value.product" />
           </div>
         </div>
       </div>
@@ -143,7 +111,9 @@ import Breadcrumb from "@/components/Breadcrumb.vue";
 import PromoBanner from "@/components/PromoBanner.vue";
 import CarouselPR from "./components/Carousel.vue";
 import TitleProduct from "~/components/TitleProduct.vue";
-import { products, banners, categories } from "@/dump/dump.ts";
+import { products, banners } from "@/dump/dump.ts";
+import apiService from "@/service/service.ts";
+import { computed, reactive, ref } from "vue";
 
 const breadcrumbItems = [
   { text: "Home", to: "/" },
@@ -152,11 +122,18 @@ const breadcrumbItems = [
 const currentFooter = ref(banners.value[0].title);
 const descFooter = ref(banners.value[0]?.description);
 const carouselHeight = ref("295px");
-const options = ref([
-  { label: "Option 1", value: 1 },
-  { label: "Option 2", value: 2 },
-  { label: "Option 3", value: 3 },
-]);
+const listCategory = ref([]);
+const listCategoryChild = ref([]);
+const searchCategoryChild = reactive({
+  product_name: "",
+  category_id: 0,
+});
+const listBrand = ref([]);
+const listCar = ref([]);
+const brand_id = ref(null);
+const car_id = ref(null);
+const category_id = ref(null);
+const loading = ref(false);
 
 const updateFooter = (index) => {
   currentFooter.value = banners.value[index].title;
@@ -173,10 +150,68 @@ const updateCarouselHeight = () => {
     }
   }
 };
+const getCategory = async () => {
+  loading.value = true;
+  const response = await apiService.getAll("/category");
+  listCategory.value = response.data.data;
+  loading.value = false;
+};
+const getCategoryChild = async () => {
+  loading.value = true;
+  const response = await apiService.postAll(
+    "/category-child",
+    searchCategoryChild
+  );
+  listCategoryChild.value = response.data.data;
+  loading.value = false;
+};
+const getBrand = async () => {
+  loading.value = true;
+  const response = await apiService.postAll("/brand");
+  listBrand.value = response.data.data;
+  loading.value = false;
+};
+const getCar = async () => {
+  loading.value = true;
+  const response = await apiService.postAll("/car");
+  listCar.value = response.data.data;
+  loading.value = false;
+};
+const updateDrop = (id) => {
+  brand_id.value = null;
+  car_id.value = null;
+  car_id.value = id;
+};
+const handleSelectBrand = () => {
+  car_id.value = null;
+};
+const handleClickSearch = async () => {
+  loading.value = true;
+  let brand_id = [];
+  if (brand_id.value) {
+    brand_id = [brand_id.value];
+  }
+  const response = await apiService.postAll(
+    "/category-child",
+    { car_id: car_id.value, brand_id: brand_id, category_id: category_id.value }
+  );
+  listCategoryChild.value = response.data.data;
+  loading.value = false;
+};
+
+const filteredCars = computed(() => {
+  return brand_id.value
+    ? listCar.value.filter((car) => car.brand_id === brand_id.value)
+    : listCar.value;
+});
 
 onMounted(() => {
   updateCarouselHeight();
   window.addEventListener("resize", updateCarouselHeight);
+  getCategory();
+  getBrand();
+  getCar();
+  getCategoryChild();
 });
 </script>
 
