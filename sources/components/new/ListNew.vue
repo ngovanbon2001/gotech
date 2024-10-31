@@ -8,10 +8,10 @@
       </div>
     </div>
     <div
-      class="w-full lg:w-[950px] xl:w-[1000px] 2xl:w-[1240px] grid lg:grid-cols-4 grid-cols-2 gap-4"
+      class="w-full lg:w-[950px] xl:w-[1000px] 2xl:w-[1240px] grid lg:grid-cols-4 grid-cols-2 gap-4 cursor-pointer"
     >
-      <div v-for="value in data.data" :key="value">
-        <img :src="value.img" alt="no-img" />
+      <div class="transition-transform duration-300 transform hover:scale-105" v-for="value in data.data" :key="value">
+        <img :src="value.img" alt="no-img" class="w-full"/>
         <p
           class="font-bold text-lg text-[#3F3F3F] whitespace-nowrap overflow-hidden cursor-pointer"
           :title="value.name"

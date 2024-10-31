@@ -59,6 +59,31 @@ body {
         color: #FFFFFF;
         border: none !important;
     }
+
+    .custom-select {
+        padding: 0.5rem;
+        border: 1px solid #ccc; /* Màu viền */
+        border-radius: 4px; /* Bo góc */
+        font-size: 16px; /* Kích thước chữ */
+        width: 100%; /* Chiều rộng 100% */
+        max-width: 400px; /* Chiều rộng tối đa */
+        transition: border-color 0.2s; /* Hiệu ứng chuyển tiếp cho viền */
+        appearance: none; /* Ẩn mũi tên mặc định */
+        background-color: #fff; /* Màu nền */
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="gray" stroke-width="1.5"><polyline points="4,7 10,13 16,7" fill="none" /></svg>'); /* Mũi tên tùy chỉnh */
+        background-repeat: no-repeat; /* Không lặp lại */
+        background-position: right 10px center; /* Định vị mũi tên */
+        background-size: 12px; /* Kích thước mũi tên */
+      }
+      
+      .custom-select:focus {
+        border-color: #007bff; /* Màu viền khi được chọn */
+        outline: none; /* Không hiển thị viền mặc định */
+      }
+      
+      .custom-select option {
+        padding: 0.5rem; /* Khoảng cách giữa các tùy chọn */
+      }
 }
 
 .space {

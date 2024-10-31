@@ -1,15 +1,15 @@
 <template>
-  <div class="content">
+  <div class="content" v-loading="loading">
     <section class="flex justify-center">
       <Breadcrumb :items="breadcrumbItems" />
     </section>
     <!-- Banner -->
     <section class="flex justify-center md:px-0 px-2">
-      <Banner :data="banner3.data" />
+      <Banner :data="listBanner" />
     </section>
     <!-- Độ xe hot -->
     <section class="flex justify-center items-center flex-col md:px-0 px-2">
-      <NewHot :news="news"/>
+      <NewHot :news="listNew"/>
     </section>
     <!-- Bài viết theo xe -->
     <section class="bg-[#F4F4F4] py-4 md:px-0 px-2">
@@ -18,34 +18,28 @@
       <div class="flex justify-center w-full py-6">
         <div class="grid grid-cols-3 lg:w-[705px] w-full gap-8">
           <div class="md:col-span-1 col-span-4">
-            <el-select
-              v-model="value"
-              placeholder="Chọn hãng xe"
-              size="large"
+            <select
+              v-model="brand_id"
               class="custom-select"
+              @change="handleSelectBrand"
             >
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
+              <option disabled value="">Chọn hãng xe</option>
+              <option v-for="item in listBrand" :key="item.id" :value="item.id">
+                {{ item.name }}
+              </option>
+            </select>
           </div>
           <div class="md:col-span-1 col-span-4">
-            <el-select
-              v-model="value"
-              placeholder="Chọn tên xe"
-              size="large"
-              class="custom-select"
-            >
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
+            <select v-model="car_id" class="custom-select">
+              <option disabled value="">Chọn tên xe</option>
+              <option
+                v-for="item in filteredCars"
+                :key="item.id"
+                :value="item.id"
+              >
+                {{ item.name }}
+              </option>
+            </select>
           </div>
           <div class="md:col-span-1 col-span-4">
             <el-button class="red-DC0F0F !h-10 w-full">Tìm sản phẩm</el-button>
@@ -57,30 +51,32 @@
         <div
           class="xl:w-[1000px] lg:w-[950px] 2xl:w-[1240px] w-full md:w-[700px] grid lg:grid-cols-12 grid-cols-4 xl:gap-4 gap-2 py-4 px-2"
         >
-          <el-dropdown v-for="i in 12" :key="i" @command="handleCommand">
+          <el-dropdown
+            v-for="value in listBrand"
+            :key="value"
+            @command="handleCommand"
+          >
             <template #dropdown>
-              <el-dropdown-menu>
+              <el-dropdown-menu v-model="car_id">
                 <el-dropdown-item
-                  v-for="(option, index) in options"
+                  v-for="(option, index) in value.cars"
                   :key="index"
+                  :value="option.id"
                   :command="option.value"
+                  @click="updateDrop(option.id)"
                 >
-                  {{ option.label }}
+                  {{ option.name }}
                 </el-dropdown-item>
               </el-dropdown-menu>
             </template>
-            <img
-              class="w-[93px] h-[51px]"
-              src="/images/logo-1.png"
-              alt="no-img"
-            />
+            <img class="w-[93px] h-[51px]" :src="value.img" alt="no-img" />
           </el-dropdown>
         </div>
       </div>
     </section>
     <!-- Tin tức -->
     <section class="flex justify-center py-8 md:px-0 px-2">
-      <ListNew :data="news"/>
+      <ListNew :data="listNew"/>
     </section>
     <!-- Phân trang -->
     <section class="flex justify-center py-2 md:px-0 px-2">
@@ -91,7 +87,7 @@
           size="small"
           background
           layout="pager"
-          :total="50"
+          :total="listNew?.total"
           class="mt-4 paginate-custom"
         />
       </div>
@@ -108,11 +104,59 @@ import { banner3, news } from "@/dump/dump.ts";
 import Banner from "@/components/new/Banner.vue";
 import NewHot from "@/components/new/NewHot.vue";
 import ListNew from "@/components/new/ListNew.vue";
+import apiService from "@/service/service.ts";
 
 const breadcrumbItems = [
   { text: "Home", to: "/" },
-  { text: "Độ xe", to: "/product" },
+  { text: "Độ xe", to: "/news" },
 ];
+const brand_id = ref("");
+const car_id = ref("");
+const listBrand = ref([]);
+const listBanner = ref([]);
+const listCar = ref([]);
+const listNew = ref([]);
+const loading = ref(false);
+
+const getBrand = async () => {
+  loading.value = true;
+  const response = await apiService.postAll("/brand");
+  listBrand.value = response.data.data;
+  loading.value = false;
+};
+const getCar = async () => {
+  loading.value = true;
+  const response = await apiService.postAll("/car");
+  listCar.value = response.data.data;
+  loading.value = false;
+};
+const getBanner = async () => {
+  let response = await apiService.postAll('/banners');  
+  listBanner.value = response.data.data.slice(0, 3);
+}
+const getNew = async () => {
+  loading.value = true;
+  const response = await apiService.postAll("/news", { category_id: [12] });
+  listNew.value = response.data.data;
+  loading.value = false;
+};
+
+const filteredCars = computed(() => {
+  if (!Array.isArray(listCar.value)) {
+    return [];
+  }
+
+  return brand_id.value
+    ? listCar.value.filter((car) => car.brand_id === brand_id.value)
+    : listCar.value;
+});
+
+onMounted(() => {
+  getBrand();
+  getCar();
+  getBanner();
+  getNew();
+});
 </script>
 
 <style lang="scss" scoped>

@@ -112,7 +112,7 @@ import { computed, reactive, ref } from "vue";
 // Const
 const breadcrumbItems = [
   { text: "Home", to: "/" },
-  { text: "Sản phẩm", to: "/product" },
+  { text: "Sản phẩm", to: "/san-pham" },
 ];
 const carouselHeight = ref("295px");
 const listCategory = ref([]);

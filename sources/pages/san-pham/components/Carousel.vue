@@ -72,8 +72,13 @@ const breakpoints = {
   },
 };
 
-const goToSlugPage = (slug) => {
-  router.push({ name: 'san-pham-slug', params: { slug: slug } });
+const goToSlugPage = async (slug) => {
+  try {
+    console.log(slug);
+    await router.push(`/san-pham-theo-xe/${slug}`);
+  } catch (error) {
+    console.error("Điều hướng gặp lỗi:", error);
+  }
 };
 </script>
 

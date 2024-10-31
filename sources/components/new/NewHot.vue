@@ -4,18 +4,18 @@
       class="w-full lg:w-[950px] xl:w-[1000px] 2xl:w-[1240px] grid grid-cols-3 gap-6"
     >
       <div class="lg:col-span-2 col-span-3">
-        <img src="/images/do-xe-hot.png" alt="no-img" />
+        <img class="w-full" :src="news?.data?.[0]?.img ?? ''" alt="no-img" />
         <div class="w-full">
           <p class="font-bold text-lg">
-            {{ news.data[0].name }}
+            {{ news?.data?.[0]?.name ?? "" }}
           </p>
           <p class="font-normal text-sm text-justify">
-            {{ news.data[0].seo_description }}
+            {{ news?.data?.[0]?.seo_description ?? "" }}
           </p>
         </div>
 
         <div
-          class="col-span-2 grid grid-cols-4 gap-3 border-t border-[#636363] py-4 my-4 lg:hidden"
+          class="cursor-pointer col-span-2 grid grid-cols-4 gap-3 border-t border-[#636363] py-4 my-4 lg:hidden"
         >
           <div
             v-for="value in news.data"
@@ -31,7 +31,7 @@
       </div>
       <div class="lg:col-span-1 col-span-3">
         <div class="w-full grid md:grid-cols-1 grid-cols-2 gap-4">
-          <div class="transition-transform duration-300 transform hover:scale-105" v-for="value in listNew" :key="value">
+          <div class="cursor-pointer transition-transform duration-300 transform hover:scale-105" v-for="value in listNew" :key="value">
             <img class="w-full" :src="value.img" alt="no-img" />
             <div class="w-full">
               <p class="font-bold text-sm">
@@ -44,7 +44,7 @@
           </div>
         </div>
         <div class="col-span-1 border-t border-[#636363] py-4 my-4 lg:hidden">
-          <img src="/images/banner-2.png" alt="no-img" class="w-full" />
+          <img src="/images/banner-2.png" alt="no-img" class="w-full transition-transform duration-300 transform hover:scale-105" />
         </div>
       </div>
     </div>
@@ -53,7 +53,7 @@
     >
       <div class="lg:col-span-2 col-span-3">
         <div
-          class="col-span-2 grid grid-cols-4 gap-3 border-t border-[#636363] py-4 my-4"
+          class="cursor-pointer col-span-2 grid grid-cols-4 gap-3 border-t border-[#636363] py-4 my-4"
         >
           <div
             v-for="value in news.data"
@@ -67,9 +67,9 @@
           </div>
         </div>
       </div>
-      <div class="lg:col-span-1 col-span-3 transition-transform duration-300 transform hover:scale-105">
+      <div class="lg:col-span-1 col-span-3">
         <div class="col-span-1 border-t border-[#636363] py-4 my-4">
-          <img src="/images/banner-2.png" alt="no-img" class="w-full" />
+          <img src="/images/banner-2.png" alt="no-img" class="w-full transition-transform duration-300 transform hover:scale-105" />
         </div>
       </div>
     </div>
@@ -84,6 +84,6 @@ const props = defineProps({
 });
 
 const listNew = computed(() => {
-  return props.news.data.slice(1, 3);
+  return (props.news.data) ? props.news.data.slice(1, 3) : [];
 });
 </script>
