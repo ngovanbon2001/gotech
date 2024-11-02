@@ -47,7 +47,7 @@ const breakpoints = {
     snapAlign: "center",
   },
   700: {
-    itemsToShow: 3.5,
+    itemsToShow: 3,
     snapAlign: "center",
   },
   1000: {

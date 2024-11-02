@@ -84,6 +84,11 @@ body {
       .custom-select option {
         padding: 0.5rem; /* Khoảng cách giữa các tùy chọn */
       }
+
+      .el-dropdown:hover {
+        border: 1px solid red !important;
+        border-radius: 4px !important;
+      }
 }
 
 .space {
