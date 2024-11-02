@@ -116,82 +116,192 @@
         </div>
       </div>
     </div>
-    <div class="header-nav w-full overflow-x-auto overflow-y-hidden">
-      <ul class="nav-menu gap-10">
-        <li class="nav-item">
-          <nuxt-link to="/" exact>Trang chủ</nuxt-link>
+    <div class="ct-overflow">
+      <div class="header-nav width-1000px">
+        <ul class="nav-menu">
+          <li class="nav-item whitespace-nowrap">
+            <nuxt-link to="/" exact>Trang chủ</nuxt-link>
+          </li>
+          <li class="nav-item">
+            <nuxt-link to="/about">Về Gotech</nuxt-link>
+          </li>
+          <li class="nav-item">
+            <nuxt-link to="/do-xe" class="has-menu">Độ xe</nuxt-link>
+          </li>
+          <li class="nav-item">
+            <nuxt-link to="/tap-chi-xe" class="has-menu">Tạp chí xe</nuxt-link>
+            <!-- <ul class="nav-menu-level-2">
+              <li class="nav-item-level-2">
+                <nuxt-link to="/tap-chi-xe" class="has-menu"
+                  >Sản phẩm theo xe<span></span
+                ></nuxt-link>
+              </li>
+              <li class="nav-item-level-2">
+                <nuxt-link to="/services" class="has-menu"
+                  >Màn hình android ô tô<span></span
+                ></nuxt-link>
+              </li>
+              <li class="nav-item-level-2">
+                <nuxt-link to="/services" class="has-menu"
+                  >Android box ô tô<span></span
+                ></nuxt-link>
+              </li>
+              <li class="nav-item-level-2">
+                <nuxt-link to="/services" class="has-menu"
+                  >Camera hành trình<span></span
+                ></nuxt-link>
+              </li>
+              <li class="nav-item-level-2">
+                <nuxt-link to="/services" class="has-menu"
+                  >Cảm biến áp suất lốp<span></span
+                ></nuxt-link>
+              </li>
+              <li class="nav-item-level-2">
+                <nuxt-link to="/services" class="has-menu"
+                  >Phụ kiện<span></span
+                ></nuxt-link>
+              </li>
+            </ul> -->
+          </li>
+          <li class="nav-item">
+            <nuxt-link to="/contact">Chính sách</nuxt-link>
+          </li>
+          <li class="nav-item">
+            <nuxt-link to="/contact">Tính năng</nuxt-link>
+          </li>
+          <li class="nav-item">
+            <nuxt-link to="/contact">Đại lý</nuxt-link>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div
+      class="lg:flex hidden bg-[#1E1E1E] h-[42px] items-center text-[#FFFFFF] justify-center relative"
+    >
+      <ul class="flex gap-2">
+        <li
+          class="nav-item relative"
+          @mouseover="showDropdown = true"
+          @mouseleave="showDropdown = false"
+        >
+          <nuxt-link to="#" class="has-menu">Sản phẩm theo xe</nuxt-link>
+          <ul class="dropdown-menu">
+            <li v-for="value in listCar" :key="value.id">
+              <nuxt-link to="/" class="dropdown-item">{{
+                value.name
+              }}</nuxt-link>
+            </li>
+          </ul>
         </li>
-        <li class="nav-item">
-          <nuxt-link to="/about">Về Gotech</nuxt-link>
-        </li>
-        <li class="nav-item">
-          <nuxt-link to="/services" class="has-menu">Độ xe</nuxt-link>
-        </li>
-        <li class="nav-item">
-          <nuxt-link to="/contact" class="has-menu">Tạp chí xe</nuxt-link>
-        </li>
-        <li class="nav-item">
-          <nuxt-link to="/contact" class="has-menu">Chính sách</nuxt-link>
-        </li>
-        <li class="nav-item">
-          <nuxt-link to="/contact">Tính năng</nuxt-link>
-        </li>
-        <li class="nav-item">
-          <nuxt-link to="/contact">Đại lý</nuxt-link>
+        <li v-for="value in listCategory" :key="value.id" class="nav-item">
+          <nuxt-link to="#" class="has-menu">{{ value.name }}</nuxt-link>
+          <ul class="dropdown-menu">
+            <li v-for="val in value.category" :key="val.id">
+              <nuxt-link to="/" class="dropdown-item">{{ val.name }}</nuxt-link>
+            </li>
+          </ul>
         </li>
       </ul>
     </div>
 
-    <!-- <div class="nav-item">
-      <ul class="nav-menu-level-2">
-        <li class="nav-item-level-2">
-          <nuxt-link to="/services" class="has-menu"
-            >Sản phẩm theo xe<span></span
-          ></nuxt-link>
-        </li>
-        <li class="nav-item-level-2">
-          <nuxt-link to="/services" class="has-menu"
-            >Màn hình android ô tô<span></span
-          ></nuxt-link>
-        </li>
-        <li class="nav-item-level-2">
-          <nuxt-link to="/services" class="has-menu"
-            >Android box ô tô<span></span
-          ></nuxt-link>
-        </li>
-        <li class="nav-item-level-2">
-          <nuxt-link to="/services" class="has-menu"
-            >Camera hành trình<span></span
-          ></nuxt-link>
-        </li>
-        <li class="nav-item-level-2">
-          <nuxt-link to="/services" class="has-menu"
-            >Cảm biến áp suất lốp<span></span
-          ></nuxt-link>
-        </li>
-        <li class="nav-item-level-2">
-          <nuxt-link to="/services" class="has-menu"
-            >Phụ kiện<span></span
-          ></nuxt-link>
-        </li>
-      </ul>
-    </div> -->
-    <!-- Menu cho màn hình nhỏ -->
     <div
       v-if="isMenuOpen"
-      class="fixed inset-0 bg-black bg-opacity-50 z-40 flex justify-end"
+      class="fixed inset-0 bg-black bg-opacity-50 z-40 flex justify-end menu-child"
       @click.self="isMenuOpen = false"
     >
-      <div class="bg-white w-4/5 h-full p-6 text-black" @click.stop>
-        <!-- Nội dung Menu -->
-        <a href="#" class="block px-4 py-2 text-lg hover:bg-gray-200">Home</a>
-        <a href="#" class="block px-4 py-2 text-lg hover:bg-gray-200">About</a>
-        <a href="#" class="block px-4 py-2 text-lg hover:bg-gray-200"
-          >Services</a
-        >
-        <a href="#" class="block px-4 py-2 text-lg hover:bg-gray-200"
-          >Contact</a
-        >
+      <div class="bg-[#DC0F0F] w-4/5 h-full p-6 text-black" @click.stop>
+        <ul>
+          <li
+            class="relative py-2"
+          >
+            <div
+              class="text-[#FFFFFF] uppercase flex items-center w-full justify-between"
+              @click="showDropdownProduct = !showDropdownProduct"
+            >
+              <div>
+                Sản phẩm theo xe
+              </div>
+              <div>
+                <span class="ml-2">
+                  <el-icon>
+                    <arrow-down v-if="!showDropdownProduct" />
+                    <arrow-up v-else />
+                  </el-icon>
+                </span>
+              </div>
+            </div>
+            <ul v-if="showDropdownProduct">
+              <li
+                v-for="(subItem, subIndex) in listCar"
+                :key="subIndex"
+                class="relative"
+              >
+                <nuxt-link to="#" class="dropdown-item">{{
+                  subItem.name
+                }}</nuxt-link>
+                <ul
+                  v-if="subItem.subMenu && subItem.subMenu.length"
+                  class="dropdown-submenu"
+                >
+                  <li
+                    v-for="(subSubItem, subSubIndex) in subItem.subMenu"
+                    :key="subSubIndex"
+                  >
+                    <nuxt-link to="#" class="dropdown-item">{{
+                      subSubItem.name
+                    }}</nuxt-link>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li
+            class="relative py-2"
+            v-for="(item, index) in listCategory"
+            :key="index"
+          >
+            <div
+              class="text-[#FFFFFF] uppercase flex items-center w-full justify-between"
+              @click="toggleDropdown(item.id)"
+            >
+              <div>
+                {{ item.name }}
+              </div>
+              <div v-if="item.category.length > 0">
+                <span class="ml-2">
+                  <el-icon>
+                    <arrow-down v-if="!isDropdownOpen[item.id]" />
+                    <arrow-up v-else />
+                  </el-icon>
+                </span>
+              </div>
+            </div>
+            <ul v-if="isDropdownOpen[item.id]">
+              <li
+                v-for="(subItem, subIndex) in item.category"
+                :key="subIndex"
+                class="relative"
+              >
+                <nuxt-link to="#" class="dropdown-item">{{
+                  subItem.name
+                }}</nuxt-link>
+                <ul
+                  v-if="subItem.subMenu && subItem.subMenu.length"
+                  class="dropdown-submenu"
+                >
+                  <li
+                    v-for="(subSubItem, subSubIndex) in subItem.subMenu"
+                    :key="subSubIndex"
+                  >
+                    <nuxt-link to="#" class="dropdown-item">{{
+                      subSubItem.name
+                    }}</nuxt-link>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
       </div>
     </div>
   </header>
@@ -199,8 +309,33 @@
 <script setup>
 import { ref } from "vue";
 import { Search } from "@element-plus/icons-vue";
+import apiService from "@/service/service.ts";
+import { ArrowUp, ArrowDown } from "@element-plus/icons-vue";
 
+const listCategory = ref([]);
 const isMenuOpen = ref(false);
+const listCar = ref([]);
+const isDropdownOpen = ref([]);
+const showDropdownProduct = ref(false);
+
+const getCategory = async () => {
+  const response = await apiService.getAll("/category");
+  listCategory.value = response.data.data;
+};
+const getCar = async () => {
+  const response = await apiService.postAll("/car");
+  listCar.value = response.data.data;
+};
+const toggleDropdown = (index) => {
+  console.log(12312312312);
+
+  isDropdownOpen.value[index] = !isDropdownOpen.value[index];
+};
+
+onMounted(() => {
+  getCategory();
+  getCar();
+});
 </script>
 
 <style lang="scss" scoped>
@@ -304,20 +439,13 @@ const isMenuOpen = ref(false);
       justify-content: center;
       align-items: center;
       height: 100%;
-      white-space: nowrap;
       a {
         text-align: left;
         color: #ffffff;
         text-decoration: none;
         font-size: 16px;
+        padding: 10px 25px;
         transition: #dc0f0f;
-      }
-
-      a.has-menu {
-        background-image: url("/images/arrow-down.png");
-        background-repeat: no-repeat;
-        background-position: right 10px center;
-        padding-right: 30px;
       }
 
       &:hover {
@@ -346,5 +474,80 @@ const isMenuOpen = ref(false);
       }
     }
   }
+}
+a.has-menu {
+  background-image: url("/images/arrow-down.png");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+}
+.menu-child {
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #1e1e1e;
+    padding: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+  }
+  .dropdown-submenu {
+    position: absolute;
+    left: 100%; /* Đưa submenu sang bên phải menu cha */
+    top: 0; /* Căn giữa theo chiều dọc */
+  }
+  .dropdown-item {
+    padding: 8px 20px;
+    color: #ffffff;
+    text-decoration: none;
+    display: block;
+  }
+  .dropdown-item:hover {
+    background-color: #dc0f0f;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .ct-overflow {
+    overflow-x: scroll;
+    white-space: nowrap;
+  }
+  .width-1000px {
+    width: 1000px;
+  }
+}
+.nav-item {
+  position: relative; /* Đảm bảo nav-item có vị trí tương đối để dropdown được định vị chính xác */
+}
+
+.dropdown-menu {
+  position: absolute; /* Đặt dropdown ở vị trí tuyệt đối */
+  top: 100%; /* Đặt dropdown ngay dưới menu cha */
+  left: 0; /* Căn trái */
+  display: none; /* Ẩn dropdown mặc định */
+  flex-direction: column; /* Đặt các item theo chiều dọc */
+  background-color: #1e1e1e; /* Màu nền của menu dropdown */
+  padding: 10px 0; /* Padding cho dropdown */
+  border-radius: 5px; /* Bo góc cho dropdown */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Đổ bóng cho dropdown */
+  z-index: 1000; /* Đảm bảo dropdown hiển thị trên các phần tử khác */
+}
+
+.nav-item:hover .dropdown-menu,
+.nav-item:focus-within .dropdown-menu {
+  display: flex; /* Hiện dropdown khi hover vào nav-item */
+}
+
+.dropdown-item {
+  padding: 10px 20px; /* Padding cho các item trong dropdown */
+  white-space: nowrap;
+  color: #ffffff; /* Màu chữ */
+  width: 100%; /* Chiều rộng đầy đủ */
+  box-sizing: border-box; /* Đảm bảo padding không làm thay đổi kích thước tổng thể */
+  transition: background-color 0.3s ease; /* Hiệu ứng cho màu nền */
+}
+
+.dropdown-item:hover {
+  text-decoration: underline; /* Gạch chân mặc định */
 }
 </style>
