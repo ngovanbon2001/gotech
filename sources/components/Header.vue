@@ -126,7 +126,7 @@
             <nuxt-link to="/about">Về Gotech</nuxt-link>
           </li>
           <li class="nav-item">
-            <nuxt-link to="/do-xe" class="has-menu">Độ xe</nuxt-link>
+            <nuxt-link to="/do-xe">Độ xe</nuxt-link>
           </li>
           <li class="nav-item">
             <nuxt-link to="/tap-chi-xe" class="has-menu">Tạp chí xe</nuxt-link>
@@ -164,13 +164,13 @@
             </ul> -->
           </li>
           <li class="nav-item">
-            <nuxt-link to="/contact">Chính sách</nuxt-link>
+            <nuxt-link to="/chinh-sach-bao-hanh">Chính sách</nuxt-link>
           </li>
           <li class="nav-item">
-            <nuxt-link to="/contact">Tính năng</nuxt-link>
+            <nuxt-link to="/tinh-nang">Tính năng</nuxt-link>
           </li>
           <li class="nav-item">
-            <nuxt-link to="/contact">Đại lý</nuxt-link>
+            <nuxt-link to="#">Đại lý</nuxt-link>
           </li>
         </ul>
       </div>

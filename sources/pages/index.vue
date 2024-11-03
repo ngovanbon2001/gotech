@@ -18,6 +18,11 @@ const listCar = ref([]);
 const brand_id = ref("");
 const car_id = ref("");
 const category_id = ref("");
+const provinces = ref([]);
+const districts = ref([]);
+const province_id = ref("");
+const district_id = ref("");
+const organization = ref([]);
 const breakpoints = {
   300: {
     itemsToShow: 1,
@@ -76,8 +81,14 @@ const getCategory = async () => {
 };
 const getOrganization = async () => {
   loading.value = true;
-  const response = await apiService.getAll("/organization");
+  const response = await apiService.getAll("/organization", { province_id: province_id.value, district_id: district_id.value });
   listOrganization.value = response.data.data;
+  loading.value = false;
+};
+const getAllOrganization = async () => {
+  loading.value = true;
+  const response = await apiService.getAll("/organization");
+  organization.value = response.data.data;
   loading.value = false;
 };
 const getPolicy = async () => {
@@ -100,6 +111,18 @@ const getVideo = async () => {
   listVideo.value = response.data.data;
   loading.value = false;
 };
+const getProvinces = async () => {
+  loading.value = true;
+  const response = await apiService.getAll("/provinces");
+  provinces.value = response.data.data;
+  loading.value = false;
+};
+const getDistricts = async (province_id) => {
+  loading.value = true;
+  const response = await apiService.getAll("/districts", { province_id: province_id });
+  districts.value = response.data.data;
+  loading.value = false;
+};
 
 const banners = computed(() => {
   return listBanner.value.slice(0, 2);
@@ -119,6 +142,8 @@ onMounted(() => {
   getPolicy();
   getNew();
   getVideo();
+  getProvinces();
+  getAllOrganization();
 });
 </script>
 <template>
@@ -342,7 +367,7 @@ onMounted(() => {
             v-bind="settings"
             :breakpoints="breakpoints"
           >
-            <Slide v-for="(value, index) in listOrganization" :key="index">
+            <Slide v-for="(value, index) in organization" :key="index">
               <div
                 :title="value.product_name"
                 @click="goToSlugPage(value.slug)"
@@ -387,10 +412,10 @@ onMounted(() => {
           <div class="flex justify-center w-full py-6 px-2">
             <div class="grid grid-cols-3 lg:w-[856px] w-full gap-8">
               <div class="md:col-span-1 col-span-3">
-                <select v-model="car_id" class="custom-select">
+                <select v-model="province_id" @change="getDistricts(province_id)" class="custom-select">
                   <option disabled value="">Chọn tỉnh/Thành phố</option>
                   <option
-                    v-for="item in filteredCars"
+                    v-for="item in provinces"
                     :key="item.id"
                     :value="item.id"
                   >
@@ -400,10 +425,10 @@ onMounted(() => {
               </div>
 
               <div class="md:col-span-1 col-span-3">
-                <select v-model="category_id" class="custom-select">
+                <select v-model="district_id" class="custom-select">
                   <option disabled value="">Chọn Quận/Huyện</option>
                   <option
-                    v-for="item in listCategory"
+                    v-for="item in districts"
                     :key="item.id"
                     :value="item.id"
                   >
@@ -413,7 +438,7 @@ onMounted(() => {
               </div>
               <div class="md:col-span-1 col-span-3">
                 <el-button
-                  @click="handleClickSearch"
+                  @click="getOrganization"
                   class="red-DC0F0F !h-10 w-full"
                   >Tìm Đại Lý Lắp Đặt</el-button
                 >
