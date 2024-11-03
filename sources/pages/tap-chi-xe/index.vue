@@ -1,15 +1,15 @@
 <template>
-  <div class="content">
+  <div class="content" v-loading="loading">
     <section class="flex justify-center">
       <Breadcrumb :items="breadcrumbItems" />
     </section>
     <!-- Banner -->
     <section class="flex justify-center md:px-0 px-2">
-      <Banner :data="banner3.data" />
+      <Banner :data="banners" />
     </section>
     <!-- Độ xe hot -->
     <section class="flex justify-center items-center flex-col md:px-0 px-2">
-      <NewHot :news="news" />
+      <NewHot :news="listNew" />
     </section>
     <section class="flex justify-center items-center flex-col md:px-0 px-2">
       <div
@@ -55,11 +55,36 @@ import ListNew from "@/components/new/ListNew.vue";
 import TabNew from "@/components/new/TabNew.vue";
 import ColNew from "@/components/new/ColNew.vue";
 import ListProduct from "@/components/new/ListProduct.vue";
+import { computed } from "vue";
+import apiService from "@/service/service.ts";
 
 const breadcrumbItems = [
   { text: "Home", to: "/" },
-  { text: "Độ xe", to: "/product" },
+  { text: "Tạp chí xe", to: "#" },
 ];
+const listBanner = ref([]);
+const listNew = ref([]);
+const loading = ref(false);
+
+const getBanner = async () => {
+  const response = await apiService.postAll("/banners");
+  listBanner.value = response.data?.data;
+};
+const getNew = async () => {
+  loading.value = true;
+  const response = await apiService.postAll("/news", { category_id: [10] });
+  listNew.value = response.data.data;
+  loading.value = false;
+};
+
+const banners = computed(() => {
+  return listBanner.value.slice(0,3);
+});
+
+onMounted(() => {
+  getBanner();
+  getNew();
+});
 </script>
 
 <style lang="scss" scoped>

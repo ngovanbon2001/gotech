@@ -23,7 +23,7 @@
               class="custom-select"
               @change="handleSelectBrand"
             >
-              <option disabled value="">Chọn hãng xe</option>
+              <option value="">Chọn hãng xe</option>
               <option v-for="item in listBrand" :key="item.id" :value="item.id">
                 {{ item.name }}
               </option>
@@ -31,7 +31,7 @@
           </div>
           <div class="md:col-span-1 col-span-4">
             <select v-model="car_id" class="custom-select">
-              <option disabled value="">Chọn tên xe</option>
+              <option value="">Chọn tên xe</option>
               <option
                 v-for="item in filteredCars"
                 :key="item.id"
@@ -42,7 +42,7 @@
             </select>
           </div>
           <div class="md:col-span-1 col-span-4">
-            <el-button class="red-DC0F0F !h-10 w-full">Tìm sản phẩm</el-button>
+            <el-button @click="handleClickSearchNew" class="red-DC0F0F !h-10 w-full">Tìm bài viết</el-button>
           </div>
         </div>
       </div>
@@ -140,6 +140,12 @@ const getNew = async () => {
   listNew.value = response.data.data;
   loading.value = false;
 };
+const handleClickSearchNew = async () => {
+  loading.value = true;
+  const response = await apiService.postAll("/news", { brand_id: brand_id.value, car_id: car_id.value });
+  listNew.value = response.data.data;
+  loading.value = false;
+}
 
 const filteredCars = computed(() => {
   if (!Array.isArray(listCar.value)) {

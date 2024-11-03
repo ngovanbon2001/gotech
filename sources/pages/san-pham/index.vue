@@ -50,12 +50,12 @@
       </div>
       <div class="flex justify-center md:px-0 px-3">
         <el-input
-          v-model="searchCategoryChild.product_name"
+          v-model="product_name"
           class="md:max-w-[382px] h-10 mr-4"
           placeholder="Tìm kiếm sản phẩm"
           :suffix-icon="CaretRight"
         />
-        <el-button @click="getCategoryChild(searchCategoryChild.category_id)" class="btn-none !h-10 md:w-[150px] red-DC0F0F"
+        <el-button @click="getCategoryChild()" class="btn-none !h-10 md:w-[150px] red-DC0F0F"
           >Tìm kiếm</el-button
         >
       </div>
@@ -66,8 +66,8 @@
           <div
             v-for="(value, key) in categories"
             :key="key"
-            class="category-child cursor-pointer"
-            @click="getCategoryChild(value.id)"
+            :class="['category-child cursor-pointer', category_id === value.id ? 'category-active' : '']"
+            @click="handleClickUpdateCate(value.id)"
           >
             {{ value.name }}
           </div>
@@ -76,7 +76,7 @@
           <div
             v-for="(value, key) in categories"
             :key="key"
-            @click="getCategoryChild(value.id)"
+            @click="handleClickUpdateCate(value.id)"
             class="flex cursor-pointer flex-col justify-center items-center transition-transform duration-300 transform hover:scale-105"
           >
             <div class="flex justify-center items-center w-[84px] h-[84px] bg-[#F8F8F8] rounded-[50%]">
@@ -126,10 +126,8 @@ const searchDiscount = reactive({
   hot: 1,
   category_id: [],
 });
-const searchCategoryChild = reactive({
-  product_name: "",
-  category_id: 0,
-});
+const category_id = ref("");
+const product_name = ref("");
 const loading = ref(false);
 // End const
 
@@ -174,12 +172,16 @@ const getProduct = async (category) => {
 }
 const getCategoryChild = async (category) => {
   loading.value = true;
-  if (category) {
-    searchCategoryChild.category_id = category; 
-  }
-  const response = await apiService.postAll('/category-child', searchCategoryChild);
+  const response = await apiService.postAll('/category-child', {product_name: product_name.value, category_id: category_id.value});
   listCategoryChild.value = response.data.data;
   loading.value = false;
+}
+const handleClickUpdateCate = (value) => {
+  if (category_id.value && category_id.value == value) {
+    category_id.value = "";
+  } else {
+    category_id.value = value;
+  }
 }
 // End function
 
@@ -249,6 +251,10 @@ onMounted(() => {
     padding-left: 29px;
   }
   .category-child:hover {
+    background: #f4f4f4;
+    text-decoration: underline;
+  }
+  .category-active {
     background: #f4f4f4;
     text-decoration: underline;
   }

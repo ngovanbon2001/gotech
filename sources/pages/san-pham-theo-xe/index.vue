@@ -14,7 +14,7 @@
               class="custom-select"
               @change="handleSelectBrand"
             >
-              <option disabled value="">Chọn hãng xe</option>
+              <option value="">Chọn hãng xe</option>
               <option v-for="item in listBrand" :key="item.id" :value="item.id">
                 {{ item.name }}
               </option>
@@ -23,7 +23,7 @@
 
           <div class="md:col-span-1 col-span-4">
             <select v-model="car_id" class="custom-select">
-              <option disabled value="">Chọn tên xe</option>
+              <option value="">Chọn tên xe</option>
               <option
                 v-for="item in filteredCars"
                 :key="item.id"
@@ -36,7 +36,7 @@
 
           <div class="md:col-span-1 col-span-4">
             <select v-model="category_id" class="custom-select">
-              <option disabled value="">Chọn sản phẩm</option>
+              <option value="">Chọn sản phẩm</option>
               <option
                 v-for="item in listCategory"
                 :key="item.id"
@@ -182,13 +182,13 @@ const handleSelectBrand = () => {
 };
 const handleClickSearch = async () => {
   loading.value = true;
-  let brand_id = [];
-  if (brand_id.value) {
-    brand_id = [brand_id.value];
+  let listBrand = [];
+  if (brand_id.value && brand_id.value !== "") {
+    listBrand = [brand_id.value];
   }
   const response = await apiService.postAll("/category-child", {
     car_id: car_id.value,
-    brand_id: brand_id,
+    brand_id: listBrand,
     category_id: category_id.value,
   });
   listCategoryChild.value = response.data.data;
