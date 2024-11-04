@@ -355,7 +355,7 @@ onMounted(() => {
     <!-- Hệ thống đại lý -->
     <section class="pt-8">
       <PromoBanner :title="'Hệ thống đại lý'" />
-      <div class="w-full uppercase text-center font-bold text-2xl py-4">
+      <div class="w-full uppercase text-center font-bold lg:text-2xl text-lg py-4">
         Nhà phân phối / ĐẠI LÝ tiêu biểu
       </div>
       <div class="w-full flex justify-center">
@@ -405,7 +405,7 @@ onMounted(() => {
       <div
         class="xl:w-[1000px] lg:w-[950px] 2xl:w-[1240px] w-full md:w-[700px] rounded py-8 lg:px-6 px-2 border-[#E4E4E4] border"
       >
-        <div class="w-full uppercase text-center font-bold text-2xl py-4">
+        <div class="w-full uppercase text-center font-bold lg:text-2xl text-lg py-4">
           tìm đại lý gần nhất - 500 đại lý
         </div>
         <div>

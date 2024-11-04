@@ -25,7 +25,6 @@ defineProps({
 
 <style scoped>
 .promo-banner {
-  font-size: 30px;
   font-weight: 900;
   line-height: 40.98px;
   text-align: center;

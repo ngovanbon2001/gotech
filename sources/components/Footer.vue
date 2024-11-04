@@ -3,7 +3,7 @@
         <div class="logo">
             <img src="/images/gotech.png"/>
         </div>
-        <div class="information">
+        <div class="information lg:flex lg:pt-4 pt-8">
             <div class="company">
                 <h4>Công ty cổ phần sản xuất và thương mại GOTECH</h4>
                 <div class="infor-1">
@@ -32,7 +32,7 @@
                     </div>
                 </div>
             </div>
-            <div class="access">
+            <div class="access lg:pt-4 pt-8">
                 <h4>Truy cập nhanh</h4>
                 <div class="access-1">
                     <ul>
@@ -54,7 +54,7 @@
                     <img src="/images/officer.png" alt="Đã thông báo với bộ công thương"/>
                 </div>
             </div>
-            <div class="support">
+            <div class="support lg:pt-4 pt-8">
                 <h4>Hỗ trợ khách hàng</h4>
                 <div class="access-1">
                     <ul>
@@ -108,7 +108,6 @@ footer {
     }
 
     .information {
-        display: flex;
         width: 80%;
         margin: 0 auto;
         justify-content: space-between;
@@ -173,9 +172,6 @@ footer {
             }
         }
 
-        .support {
-            margin-left: 10px;
-        }
     }
 }
 </style>
